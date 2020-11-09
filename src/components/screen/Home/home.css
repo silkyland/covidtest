@@ -1,0 +1,16 @@
+.bg-white {
+  background: #ffff;
+}
+
+table.tableBodyScroll tbody {
+  display: block;
+  max-height: 250px;
+  overflow-y: scroll;
+}
+
+table.tableBodyScroll thead,
+table.tableBodyScroll tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
