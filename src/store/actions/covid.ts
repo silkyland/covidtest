@@ -1,48 +1,44 @@
 import axios from "axios";
-import { Dispatch } from "react";
-import { Action } from "redux";
+import { AnyAction, Dispatch } from "redux";
+import { CovidTest } from "../../utils/interface";
+import { errorState, setErrorState } from "./mics";
 
-export const SET_TODO = "SET_TODO";
-export const SET_TODOS = "SET_TODOS";
-export const DONE_DELETE = "DONE_DELETE";
-
-export enum CovidAction {
-  SET_TODO = "SET_TODO",
-  SET_TODOS = "SET_TODOS",
-  DONE_DELETE = "DONE_DELETE",
+export enum covidAction {
+  SET_COVID = "SET_COVID",
+  SET_COVIDS = "SET_COVIDS",
+  DELETE_COVID = "DELETE_COVID",
 }
 
-const config: any = {};
-
-export const getTodo = () => async (dispatch: Dispatch<any>) => {
-  let todos = await axios.get(config.server.api + "/todos");
-  dispatch(setTodos(todos.data));
+export const scan = (citizen_id: string) => async (
+  dispatch: Dispatch<AnyAction>
+): Promise<void> => {
+  try {
+    const reponse = await axios.get(
+      `https://jsonplaceholder.typicode.com/todos`
+    );
+    dispatch(setCovids(reponse.data));
+  } catch (error: any) {
+    dispatch(
+      setErrorState(errorState.HAS_ERROR, {
+        code: error.reponse.status,
+        message: error.message,
+        trace: JSON.stringify(error.response),
+      })
+    );
+  }
 };
 
-export const addTodo = (message: string) => async (dispatch: Dispatch<any>) => {
-  let todos = await axios.post(config.server.api + "/todos", {
-    name: message,
-  });
-  dispatch(setTodo(todos.data));
-};
-
-export const deleteTodo = (id: string) => async (dispatch: Dispatch<any>) => {
-  let todo = await axios.delete(config.server.api + "/todos/" + id);
-  let todos = await axios.get(config.server.api + "/todos");
-  dispatch(setTodos(todos.data));
-};
-
-const doneDelete = (id: string) => ({
-  type: DONE_DELETE,
+export const deleteCovid = (id: string) => ({
+  type: covidAction.DELETE_COVID,
   payload: id,
 });
 
-const setTodo = (data: CovidAction) => ({
-  type: SET_TODO,
+export const setCovid = (data: CovidTest) => ({
+  type: covidAction.SET_COVID,
   payload: data,
 });
 
-const setTodos = (data: CovidAction) => ({
-  type: SET_TODOS,
+export const setCovids = (data: CovidTest) => ({
+  type: covidAction.SET_COVIDS,
   payload: data,
 });

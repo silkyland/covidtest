@@ -1,13 +1,27 @@
-import { createStore, compose, applyMiddleware } from "redux";
+import { createStore, compose, applyMiddleware, Middleware } from "redux";
 import RootReducer from "./reducers";
 import thunk from "redux-thunk";
 const loadingMiddleware = require("redux-loading-middleware");
-const loadingReducer = require("redux-loading-middleware/loadingReducer");
 
-const Store = createStore(
-  loadingReducer,
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const initialState: any = {
+  loading: false,
+  covid: {},
+};
+
+const middleware = [thunk];
+
+const store = createStore(
   RootReducer,
-  compose(applyMiddleware(thunk, loadingMiddleware))
+  // initialState,
+  composeEnhancers(applyMiddleware(...middleware))
 );
 
-export default Store;
+export default store;
