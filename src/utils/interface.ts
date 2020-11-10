@@ -40,6 +40,7 @@ export interface CovidTest {
   covid_test_id: number;
   citizen_id: string;
   queqe_id: string;
+  fullname: string;
   checkin_datetime: Date;
   rapidtest_datetime: Date;
   rapidtest_status: CovidTestResult;

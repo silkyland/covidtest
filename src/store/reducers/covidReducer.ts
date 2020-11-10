@@ -1,6 +1,4 @@
-import immutable from "immutability-helper";
 import { ActionWithPayload, CovidTest } from "../../utils/interface";
-import { Action } from "redux";
 import { errorState } from "../actions/mics";
 
 export enum covidAction {
@@ -8,7 +6,7 @@ export enum covidAction {
   SET_COVIDS = "SET_COVIDS",
   UPDATE_COVID = "UPDATE_COVID",
   DELETE_COVID = "DELETE_COVID",
-  SET_BILLBOARDS = "SET_BILLBOARDS",
+  SET_QUEQES = "SET_QUEQES",
 }
 
 const initialState = {
@@ -22,7 +20,7 @@ const initialState = {
     error: {} as errorState,
     data: [] as Array<CovidTest>,
   },
-  billboards: {
+  queqes: {
     isLoading: false as Boolean,
     error: {} as errorState,
     data: [] as Array<CovidTest>,
@@ -40,8 +38,8 @@ const CovidReducer = (
       return { ...state, covids: action.payload };
     case covidAction.DELETE_COVID:
       return state.covid;
-    case covidAction.SET_BILLBOARDS:
-      return { ...state, billboards: action.payload };
+    case covidAction.SET_QUEQES:
+      return { ...state, queqes: action.payload };
     default:
       return state;
   }

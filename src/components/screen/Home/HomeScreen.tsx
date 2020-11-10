@@ -1,21 +1,20 @@
-import { connect } from "react-redux";
-import { Dispatch, AnyAction } from "redux";
-import React, { useEffect, useRef } from "react";
-import { Alert, Button, Col, Form, FormGroup, Input, Table } from "reactstrap";
-import "./home.css";
-import { fetchBillboard } from "../../../store/actions/covid";
+import React, { useEffect } from "react";
 import Skelaton from "react-loading-skeleton";
+import { connect } from "react-redux";
+import { Alert, Button, Col, Form, FormGroup, Input, Table } from "reactstrap";
+import { fetchQueqe } from "../../../store/actions/covid";
 import { CovidTest } from "../../../utils/interface";
+import "./home.css";
 const HomeScreen = (props: any) => {
   const _handleSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
 
   useEffect(() => {
-    props.fetchBillboard();
+    props.fetchQueqe();
   }, []);
 
-  const { billboards } = props;
+  const { queqes } = props;
 
   return (
     <div>
@@ -52,11 +51,11 @@ const HomeScreen = (props: any) => {
             <h4 className="text-dark p-3">
               <i className="fa fa-user" aria-hidden="true"></i> รายชื่อ
             </h4>
-            {billboards.isLoading ? (
+            {queqes.isLoading ? (
               <Skelaton count={5} />
-            ) : billboards.error ? (
+            ) : queqes.error ? (
               <Alert color="danger">
-                {billboards.error.message} <p>{billboards.error.trace}</p>
+                {queqes.error.message} <p>{queqes.error.trace}</p>
               </Alert>
             ) : (
               <Table striped hover className="tableBodyScroll rounded">
@@ -69,19 +68,19 @@ const HomeScreen = (props: any) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {billboards.data.length < 1 ? (
+                  {queqes.data.length < 1 ? (
                     <tr>
                       <td colSpan={4} className="text-center">
                         = ไม่พบข้อมูล =
                       </td>
                     </tr>
                   ) : (
-                    billboards.map((billboard: CovidTest, index: number) => (
-                      <tr>
+                    queqes.data.map((queqe: CovidTest, index: number) => (
+                      <tr key={index}>
                         <td>{index + 1}</td>
-                        <td>{billboard.citizen_id}</td>
-                        <td>{billboard.queqe_id}</td>
-                        <td>{billboard.citizen_id}</td>
+                        <td>{queqe.citizen_id}</td>
+                        <td>{queqe.queqe_id}</td>
+                        <td>{queqe.fullname}</td>
                       </tr>
                     ))
                   )}
@@ -98,11 +97,11 @@ const HomeScreen = (props: any) => {
 const mapStateToProps = (state: any) => ({
   error: state.app.error,
   loading: state.app.loading,
-  billboards: state.covid.billboards,
+  queqes: state.covid.queqes,
 });
 
 const mapDispatchToProps = (dispatch: Function) => ({
-  fetchBillboard: () => dispatch(fetchBillboard()),
+  fetchQueqe: () => dispatch(fetchQueqe()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

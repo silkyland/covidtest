@@ -1,3 +1,4 @@
+import Axios from "axios";
 import { AnyAction, Dispatch } from "redux";
 import config from "../../config";
 import { CovidTest, ResponseData, Subscriber } from "../../utils/interface";
@@ -22,23 +23,23 @@ export const scan = (citizen_id: string) => async (
   }
 };
 
-export const fetchBillboard = () => async (
+export const fetchQueqe = () => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
   try {
-    dispatch(setBillboards({ isLoading: true, data: [] }));
-    const reponse = await fetchAPI.get(`/covid/billboard`);
-    dispatch(setBillboards({ isLoading: false, data: reponse.data }));
+    dispatch(setQueqes({ isLoading: true, data: [] }));
+    const response = await Axios.get(`${config.api.server}/covid/queqe`);
+    dispatch(setQueqes({ isLoading: false, data: response.data }));
   } catch (error) {
     console.log(error.response);
     dispatch(
-      setBillboards({
+      setQueqes({
         isLoading: false,
         data: [],
         error: {
           code: 500,
           message: "เกิดข้อผิดพลาดขณะทำการเรียกข้อมูล",
-          trace: error.response.data.message,
+          trace: error.response?.data?.message,
         },
       })
     );
@@ -60,7 +61,7 @@ const setCovids = (data: CovidTest) => ({
   payload: data,
 });
 
-const setBillboards = (data: ResponseData) => ({
-  type: covidAction.SET_BILLBOARDS,
+const setQueqes = (data: ResponseData) => ({
+  type: covidAction.SET_QUEQES,
   payload: data,
 });
