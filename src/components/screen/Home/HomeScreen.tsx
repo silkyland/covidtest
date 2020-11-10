@@ -1,10 +1,21 @@
-import React, { useRef } from "react";
+import { connect } from "react-redux";
+import { Dispatch, AnyAction } from "redux";
+import React, { useEffect, useRef } from "react";
 import { Alert, Button, Col, Form, FormGroup, Input, Table } from "reactstrap";
 import "./home.css";
-const HomeScreen = (props: object) => {
+import { fetchBillboard } from "../../../store/actions/covid";
+import Skelaton from "react-loading-skeleton";
+import { CovidTest } from "../../../utils/interface";
+const HomeScreen = (props: any) => {
   const _handleSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
+
+  useEffect(() => {
+    props.fetchBillboard();
+  }, []);
+
+  const { billboards } = props;
 
   return (
     <div>
@@ -41,78 +52,42 @@ const HomeScreen = (props: object) => {
             <h4 className="text-dark p-3">
               <i className="fa fa-user" aria-hidden="true"></i> รายชื่อ
             </h4>
-            <Table striped hover className="tableBodyScroll rounded">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>รหัส</th>
-                  <th>คิว</th>
-                  <th>ชื่อ-สกุล</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>1251200011314</td>
-                  <td>1</td>
-                  <td>สมชาย แปงคำเอ้ย</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>1251200011313</td>
-                  <td>2</td>
-                  <td>รักษา รักษ์สัตย์</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>1251200011313</td>
-                  <td>2</td>
-                  <td>รักษา รักษ์สัตย์</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>1251200011313</td>
-                  <td>2</td>
-                  <td>รักษา รักษ์สัตย์</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>1251200011313</td>
-                  <td>2</td>
-                  <td>รักษา รักษ์สัตย์</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>1251200011313</td>
-                  <td>2</td>
-                  <td>รักษา รักษ์สัตย์</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>1251200011313</td>
-                  <td>2</td>
-                  <td>รักษา รักษ์สัตย์</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>1251200011313</td>
-                  <td>2</td>
-                  <td>รักษา รักษ์สัตย์</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>1251200011313</td>
-                  <td>2</td>
-                  <td>รักษา รักษ์สัตย์</td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>1251200011313</td>
-                  <td>2</td>
-                  <td>รักษา รักษ์สัตย์</td>
-                </tr>
-              </tbody>
-            </Table>
+            {billboards.isLoading ? (
+              <Skelaton count={5} />
+            ) : billboards.error ? (
+              <Alert color="danger">
+                {billboards.error.message} <p>{billboards.error.trace}</p>
+              </Alert>
+            ) : (
+              <Table striped hover className="tableBodyScroll rounded">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>รหัส</th>
+                    <th>คิว</th>
+                    <th>ชื่อ-สกุล</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {billboards.data.length < 1 ? (
+                    <tr>
+                      <td colSpan={4} className="text-center">
+                        = ไม่พบข้อมูล =
+                      </td>
+                    </tr>
+                  ) : (
+                    billboards.map((billboard: CovidTest, index: number) => (
+                      <tr>
+                        <td>{index + 1}</td>
+                        <td>{billboard.citizen_id}</td>
+                        <td>{billboard.queqe_id}</td>
+                        <td>{billboard.citizen_id}</td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </Table>
+            )}
           </div>
         </div>
       </div>
@@ -120,4 +95,14 @@ const HomeScreen = (props: object) => {
   );
 };
 
-export default HomeScreen;
+const mapStateToProps = (state: any) => ({
+  error: state.app.error,
+  loading: state.app.loading,
+  billboards: state.covid.billboards,
+});
+
+const mapDispatchToProps = (dispatch: Function) => ({
+  fetchBillboard: () => dispatch(fetchBillboard()),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

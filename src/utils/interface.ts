@@ -10,6 +10,23 @@ export interface ActionWithPayload<T> extends Action {
   payload: T;
 }
 
+export interface ErrorMessage {
+  subscriber?: Subscriber;
+  message: string;
+  code: number;
+  trace: string;
+}
+export interface ResponseData {
+  isLoading: boolean;
+  data: any;
+  error?: ErrorMessage;
+}
+
+export enum Subscriber {
+  INDEX_PAGE,
+  GLOBAL,
+}
+
 export enum InStep {
   NOT_IN_QUEUE = 0,
   IN_QUEUE = 1,

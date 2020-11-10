@@ -1,21 +1,15 @@
 import axios from "axios";
 import { Dispatch } from "redux";
-import { CovidTest } from "../../utils/interface";
+import { CovidTest, ErrorMessage, Subscriber } from "../../utils/interface";
 
 export enum loadingState {
-  IS_NOT_LOADING = 0,
-  IS_LOADING = 1,
+  IS_NOT_LOADING = "IS_NOT_LOADING",
+  IS_LOADING = "IS_LOADING",
 }
 
 export enum errorState {
-  HAS_NOT_ERROR = 0,
-  HAS_ERROR = 1,
-}
-
-interface errorMessage {
-  message: string;
-  code: number;
-  trace: string;
+  HAS_NOT_ERROR = "HAS_NOT_ERROR",
+  HAS_ERROR = "HAS_ERROR",
 }
 
 export const setLoadingState = (type: loadingState, state: Boolean) => ({
@@ -23,7 +17,7 @@ export const setLoadingState = (type: loadingState, state: Boolean) => ({
   payload: state,
 });
 
-export const setErrorState = (state: errorState, message: errorMessage) => ({
+export const setErrorState = (state: errorState, message: ErrorMessage) => ({
   type: state,
   payload: message,
 });
