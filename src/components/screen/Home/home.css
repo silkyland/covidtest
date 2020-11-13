@@ -14,3 +14,7 @@ table.tableBodyScroll tbody tr {
   width: 100%;
   table-layout: fixed;
 }
+
+.text-color-default {
+  color: #333;
+}

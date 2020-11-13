@@ -1,6 +1,4 @@
-import axios from "axios";
-import { Dispatch } from "redux";
-import { CovidTest, ErrorMessage, Subscriber } from "../../utils/interface";
+import { ErrorMessage } from "../../utils/interface";
 
 export enum loadingState {
   IS_NOT_LOADING = "IS_NOT_LOADING",

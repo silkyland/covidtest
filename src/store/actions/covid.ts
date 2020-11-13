@@ -39,6 +39,39 @@ export const checkin = (citizen_id: string) => async (
   }
 };
 
+export const reprint = (citizen_id: string) => async (
+  dispatch: Dispatch<AnyAction>
+): Promise<void> => {
+  try {
+    dispatch(setCovid({ isLoading: true, data: {} }));
+    const response = await fetchAPI.post(`${config.api.server}/covid/reprint`, {
+      citizen_id,
+    });
+    dispatch(addQueqe({ data: response.data }));
+    dispatch(setCovid({ isLoading: false, data: response.data }));
+  } catch (error: any) {
+    dispatch(
+      setCovid({
+        isLoading: false,
+        error: {
+          code: 500,
+          message: "เกิดข้อผิดพลาดขณะทำการเรียกข้อมูล",
+          trace: error.response?.data?.message,
+        },
+      })
+    );
+    // setTimeout(() => {
+    //   dispatch(
+    //     setCovid({
+    //       isLoading: false,
+    //       data: [],
+    //       error: {},
+    //     })
+    //   );
+    // }, 3000);
+  }
+};
+
 export const fetchQueqe = () => async (
   dispatch: Dispatch<AnyAction>
 ): Promise<void> => {
