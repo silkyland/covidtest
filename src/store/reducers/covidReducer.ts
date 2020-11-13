@@ -3,6 +3,8 @@ import { errorState } from "../actions/mics";
 
 export enum covidAction {
   SET_COVID = "SET_COVID",
+  ADD_COVID = "ADD_COVID",
+  ADD_QUEQE = "ADD_QUEQE",
   SET_COVIDS = "SET_COVIDS",
   UPDATE_COVID = "UPDATE_COVID",
   DELETE_COVID = "DELETE_COVID",
@@ -34,6 +36,17 @@ const CovidReducer = (
   switch (action.type) {
     case covidAction.SET_COVID:
       return { ...state, covid: action.payload };
+    case covidAction.ADD_QUEQE:
+      return {
+        ...state,
+        queqes: {
+          data: state.queqes.data
+            .concat(action.payload.data)
+            .sort((a, b) => b.queqe_id - a.queqe_id),
+          error: action.payload.error,
+          isLoading: action.payload.isLoading,
+        },
+      };
     case covidAction.SET_COVIDS:
       return { ...state, covids: action.payload };
     case covidAction.DELETE_COVID:

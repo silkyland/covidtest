@@ -1,29 +1,47 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Skelaton from "react-loading-skeleton";
 import { connect } from "react-redux";
 import { Alert, Button, Col, Form, FormGroup, Input, Table } from "reactstrap";
-import { fetchQueqe } from "../../../store/actions/covid";
+import { checkin, fetchQueqe } from "../../../store/actions/covid";
 import { CovidTest } from "../../../utils/interface";
+import moment from "moment";
+import "moment/locale/th";
 import "./home.css";
+import _ from "lodash";
+
+moment.locale("th");
+
 const HomeScreen = (props: any) => {
   const _handleSubmitSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    props.checkin(citizenId);
+    setCitizenId("");
   };
+
+  const _handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setCitizenId(e.target.value);
+  };
+
+  const [citizenId, setCitizenId] = useState("");
 
   useEffect(() => {
     props.fetchQueqe();
   }, []);
 
-  const { queqes } = props;
+  const { queqes, covid, covids } = props;
 
   return (
     <div>
       <div className="p-5">
         <div className="main-content">
           <h1>เช็คอินรับบัตรคิว</h1>
-          <Alert color="danger">
-            <h4>มีข้อผิดพลาด</h4> ไม่สามารถอธิบายได้
-          </Alert>
+          {!_.isEmpty(covid.error) ? (
+            <Alert color="danger">
+              <h4>{covid.error.message}</h4> {covid.error.trace}
+            </Alert>
+          ) : null}
+
           <div className="m-5">
             <Form onSubmit={_handleSubmitSearch}>
               <FormGroup row>
@@ -33,14 +51,23 @@ const HomeScreen = (props: any) => {
                     className="placeholder-center"
                     placeholder="กรอกหมายเลขบาร์โค๊ดที่นี่"
                     bsSize="lg"
+                    value={citizenId}
+                    onChange={_handleChangeInput}
                   />
                   <div className="center">
                     <Button color="outline-primary" className="mt-2 mr-2">
-                      <i className="fa fa-search" aria-hidden="true"></i> ค้นหา
+                      <i className="fa fa-id-card-o" aria-hidden="true"></i>{" "}
+                      รับคิว
                     </Button>
-                    <Button color="outline-warning" className="mt-2">
-                      <i className="fa fa-plus" aria-hidden="true"></i>{" "}
-                      เพิ่มใหม่
+                    <Button
+                      onClick={() => {
+                        props.history.push("/reprint");
+                      }}
+                      color="outline-warning"
+                      className="mt-2"
+                    >
+                      <i className="fa fa-print" aria-hidden="true"></i>{" "}
+                      พิมพ์คิวใหม่
                     </Button>
                   </div>
                 </Col>
@@ -61,10 +88,10 @@ const HomeScreen = (props: any) => {
               <Table striped hover className="tableBodyScroll rounded">
                 <thead>
                   <tr>
-                    <th>#</th>
                     <th>รหัส</th>
                     <th>คิว</th>
                     <th>ชื่อ-สกุล</th>
+                    <th>เวลา</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -77,10 +104,12 @@ const HomeScreen = (props: any) => {
                   ) : (
                     queqes.data.map((queqe: CovidTest, index: number) => (
                       <tr key={index}>
-                        <td>{index + 1}</td>
                         <td>{queqe.citizen_id}</td>
                         <td>{queqe.queqe_id}</td>
                         <td>{queqe.fullname}</td>
+                        <td>
+                          {moment(queqe.checkin_datetime).format("lll")} น.
+                        </td>
                       </tr>
                     ))
                   )}
@@ -98,10 +127,13 @@ const mapStateToProps = (state: any) => ({
   error: state.app.error,
   loading: state.app.loading,
   queqes: state.covid.queqes,
+  covid: state.covid.covid,
+  covids: state.covid.covids,
 });
 
 const mapDispatchToProps = (dispatch: Function) => ({
   fetchQueqe: () => dispatch(fetchQueqe()),
+  checkin: (citizen_id: string) => dispatch(checkin(citizen_id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

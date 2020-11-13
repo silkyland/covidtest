@@ -12,13 +12,13 @@ export interface ActionWithPayload<T> extends Action {
 
 export interface ErrorMessage {
   subscriber?: Subscriber;
-  message: string;
-  code: number;
-  trace: string;
+  message?: string;
+  code?: number;
+  trace?: string;
 }
 export interface ResponseData {
-  isLoading: boolean;
-  data: any;
+  isLoading?: boolean;
+  data?: any;
   error?: ErrorMessage;
 }
 
@@ -39,7 +39,7 @@ export enum InStep {
 export interface CovidTest {
   covid_test_id: number;
   citizen_id: string;
-  queqe_id: string;
+  queqe_id: number;
   fullname: string;
   checkin_datetime: Date;
   rapidtest_datetime: Date;
