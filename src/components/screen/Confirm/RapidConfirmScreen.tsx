@@ -51,10 +51,13 @@ const RapidConfirmScreen = (props: any) => {
       setActiveTab(parseInt(tab));
     }
   };
+
   useEffect(() => {
     props.fetchQueqe();
     checkTab();
   }, []);
+
+  const _handleSelectRadioChange = (value: CovidTestResult): void => {};
 
   const _handleSubmitSearch = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
@@ -134,24 +137,43 @@ const RapidConfirmScreen = (props: any) => {
                 <TabPane tabId={0}>
                   <Row>
                     <Col sm="12">
-                      <h4 className=" text-color-default">บันทึกผลการตรวจ RAPID TEST</h4>
+                      <h4 className="text-color-333">
+                        บันทึกผลการตรวจ RAPID TEST
+                      </h4>
                       <Form onSubmit={_handleSubmitSearch}>
                         <FormGroup row>
                           <Col sm={{ size: 8, offset: 2 }}>
-                            <FormGroup tag="fieldset">
-                              <legend>Radio Buttons</legend>
+                            <FormGroup
+                              tag="fieldset"
+                              className="text-color-333"
+                            >
+                              <legend>ผลตรวจ</legend>
                               <FormGroup check>
                                 <Label check>
-                                  <Input type="radio" name="radio1" /> Option
-                                  one is this and that—be sure to include why
-                                  it's great
+                                  <Input
+                                    type="radio"
+                                    name="status"
+                                    value={CovidTestResult.PASS}
+                                    onChange={_handleChangeInput}
+                                    checked={
+                                      input.status === CovidTestResult.PASS
+                                    }
+                                  />{" "}
+                                  😀 ผลการตรวจผ่าน
                                 </Label>
                               </FormGroup>
                               <FormGroup check>
                                 <Label check>
-                                  <Input type="radio" name="radio1" /> Option
-                                  two can be something else and selecting it
-                                  will deselect option one
+                                  <Input
+                                    type="radio"
+                                    name="status"
+                                    value={CovidTestResult.FAIL}
+                                    onChange={_handleChangeInput}
+                                    checked={
+                                      input.status === CovidTestResult.FAIL
+                                    }
+                                  />{" "}
+                                  🤧 ผลการตรวจไม่ผ่าน
                                 </Label>
                               </FormGroup>
                             </FormGroup>
@@ -165,11 +187,7 @@ const RapidConfirmScreen = (props: any) => {
                             />
                             <div className="center">
                               <Button color="outline-primary" className="mt-2">
-                                <i
-                                  className="fa fa-print"
-                                  aria-hidden="true"
-                                ></i>{" "}
-                                บันทึกผล
+                                💾 บันทึกผล
                               </Button>
                             </div>
                           </Col>
