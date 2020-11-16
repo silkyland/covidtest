@@ -13,16 +13,17 @@ import HomeScreen from "../screen/Home/HomeScreen";
 import ReprintScreen from "../screen/Print/ReprintScreen";
 import "./master.css";
 import CheckScreen from "../screen/Check/CheckScreen";
+import BillboardScreen from "../screen/Billboard/BillboardScreen";
 
 const Master = (props: any) => {
   const menuList = [
-    { id: 1, to: "/", icon: "fa-search", name: "เช็คอิน" },
-    { id: 2, to: "/result", icon: "fa-save", name: "บันทึกผล" },
-    { id: 3, to: "/check", icon: "fa-crop", name: "ตรวจสอบ" },
+    { id: 1, to: "/covid", icon: "fa-search", name: "เช็คอิน" },
+    { id: 2, to: "/covid/result", icon: "fa-save", name: "บันทึกผล" },
+    { id: 3, to: "/covid/check", icon: "fa-crop", name: "ตรวจสอบ" },
     {
       id: 4,
       external: true,
-      to: "/reprint",
+      to: "/covid/reprint",
       icon: "fa-print",
       name: "พิมพ์คิว",
     },
@@ -81,20 +82,20 @@ const Master = (props: any) => {
             <Switch>
               <Route
                 exact
-                path="/"
+                path="/covid/"
                 render={(props) => <HomeScreen {...props} />}
               />
 
               <Route
-                path="/result"
+                path="/covid/result"
                 render={(props) => <ConfirmScreen {...props} />}
               />
               <Route
-                path="/check"
+                path="/covid/check"
                 render={(props) => <CheckScreen {...props} />}
               />
               <Route
-                path="/reprint"
+                path="/covid/reprint"
                 render={(props) => <ReprintScreen {...props} />}
               />
               <Redirect path="*" to="/404" />
