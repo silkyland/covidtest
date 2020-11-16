@@ -8,7 +8,7 @@ import {
   Switch,
 } from "react-router-dom";
 import { Button, Container } from "reactstrap";
-import RapidConfirmScreen from "../screen/Confirm/RapidConfirmScreen";
+import ConfirmScreen from "../screen/Confirm/ConfirmScreen";
 import HomeScreen from "../screen/Home/HomeScreen";
 import ReprintScreen from "../screen/Home/ReprintScreen";
 import "./master.css";
@@ -18,7 +18,13 @@ const Master = (props: any) => {
     { id: 1, to: "/", icon: "fa-search", name: "เช็คอิน" },
     { id: 2, to: "/result", icon: "fa-save", name: "บันทึกผล" },
     { id: 3, to: "/crop", icon: "fa-crop", name: "ตรวจสอบ" },
-    { id: 4, external: true, to: "/print", icon: "fa-print", name: "PRINT" },
+    {
+      id: 4,
+      external: true,
+      to: "/reprint",
+      icon: "fa-print",
+      name: "พิมพ์คิว",
+    },
   ];
   const menuIndex: Number = menuList.findIndex(
     (v) => v.to === props.history.location.pathname
@@ -83,7 +89,7 @@ const Master = (props: any) => {
               />
               <Route
                 path="/result"
-                render={(props) => <RapidConfirmScreen {...props} />}
+                render={(props) => <ConfirmScreen {...props} />}
               />
 
               <Redirect path="*" to="/404" />

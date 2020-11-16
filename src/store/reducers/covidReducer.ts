@@ -62,27 +62,62 @@ const CovidReducer = (
         },
       };
     case covidAction.ADD_RAPID:
-      return {
-        ...state,
-        rapids: {
-          data: state.rapids.data
-            .concat(action.payload.data)
-            .sort((a, b) => b.queqe_id - a.queqe_id),
-          error: action.payload.error,
-          isLoading: action.payload.isLoading,
-        },
-      };
+      const findIndex = state.rapids.data.findIndex(
+        (p: CovidTest) => p.citizen_id === action.payload.data.citizen_id
+      );
+
+      console.log(findIndex);
+
+      if (findIndex >= 0) {
+        const updateData = [...state.rapids.data];
+        updateData[findIndex] = action.payload.data;
+        return {
+          ...state,
+          rapids: {
+            data: updateData,
+            error: action.payload.error,
+            isLoading: action.payload.isLoading,
+          },
+        };
+      } else {
+        return {
+          ...state,
+          rapids: {
+            data: [action.payload.data, ...state.rapids.data],
+            error: action.payload.error,
+            isLoading: action.payload.isLoading,
+          },
+        };
+      }
     case covidAction.ADD_PCR:
-      return {
-        ...state,
-        pcrs: {
-          data: state.pcrs.data
-            .concat(action.payload.data)
-            .sort((a, b) => b.queqe_id - a.queqe_id),
-          error: action.payload.error,
-          isLoading: action.payload.isLoading,
-        },
-      };
+      const index = state.pcrs.data.findIndex(
+        (p: CovidTest, index: number) =>
+          p.citizen_id === action.payload.data.citizen_id
+      );
+
+      console.log(index);
+
+      if (index >= 0) {
+        const updateData = [...state.pcrs.data];
+        updateData[index] = action.payload.data;
+        return {
+          ...state,
+          pcrs: {
+            data: updateData,
+            error: action.payload.error,
+            isLoading: action.payload.isLoading,
+          },
+        };
+      } else {
+        return {
+          ...state,
+          pcrs: {
+            data: [action.payload.data, ...state.pcrs.data],
+            error: action.payload.error,
+            isLoading: action.payload.isLoading,
+          },
+        };
+      }
     case covidAction.SET_COVIDS:
       return { ...state, covids: action.payload };
     case covidAction.DELETE_COVID:

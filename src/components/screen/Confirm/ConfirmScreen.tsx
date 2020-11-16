@@ -1,3 +1,4 @@
+import _ from "lodash";
 import moment from "moment";
 import "moment/locale/th";
 import React, { useEffect, useState } from "react";
@@ -6,9 +7,6 @@ import { connect } from "react-redux";
 import {
   Alert,
   Button,
-  Card,
-  CardText,
-  CardTitle,
   Col,
   Form,
   FormGroup,
@@ -32,7 +30,7 @@ import "../Home/home.css";
 
 moment.locale("th");
 
-const RapidConfirmScreen = (props: any) => {
+const ConfirmScreen = (props: any): JSX.Element => {
   const [activeTab, setActiveTab] = useState(0);
   const [input, setInput] = useState({
     citizen_id: "",
@@ -61,9 +59,8 @@ const RapidConfirmScreen = (props: any) => {
     setInput({ ...input, [name]: parseInt(value) });
   };
 
-  const _handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault();
-    setInput({ ...input, [e.target.name]: e.target.value });
+  const _handleChangeInput = (field: string, value: string) => {
+    setInput({ ...input, [field]: value });
   };
 
   const handleChangeTab = async (index: number): Promise<void> => {
@@ -74,11 +71,13 @@ const RapidConfirmScreen = (props: any) => {
   const _submitRapidTest = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     props.submitTestResult("RAPID", input.citizen_id, input.status);
+    setInput({ ...input, citizen_id: "", status: CovidTestResult.PASS });
   };
 
   const _submitPCRTest = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     props.submitTestResult("PCR", input.citizen_id, input.status);
+    setInput({ ...input, citizen_id: "", status: CovidTestResult.PASS });
   };
 
   return (
@@ -122,6 +121,12 @@ const RapidConfirmScreen = (props: any) => {
                       <h4 className="text-color-333">
                         บันทึกผลการตรวจ RAPID TEST
                       </h4>
+                      {!_.isEmpty(props?.covid?.error) ? (
+                        <Alert color="danger">
+                          <h4>{props.covid?.error?.message} </h4>
+                          <p>{props.covid?.error?.trace}</p>
+                        </Alert>
+                      ) : null}
                       <Form onSubmit={_submitRapidTest}>
                         <FormGroup row>
                           <Col sm={{ size: 8, offset: 2 }}>
@@ -175,7 +180,9 @@ const RapidConfirmScreen = (props: any) => {
                               placeholder="กรอกหมายเลขบาร์โค๊ดที่นี่"
                               bsSize="lg"
                               value={input.citizen_id}
-                              onChange={_handleChangeInput}
+                              onChange={(e) =>
+                                _handleChangeInput("citizen_id", e.target.value)
+                              }
                             />
                             <div className="center">
                               <Button color="outline-primary" className="mt-2">
@@ -253,7 +260,13 @@ const RapidConfirmScreen = (props: any) => {
                       <h4 className="text-color-333">
                         บันทึกผลการตรวจ PCR TEST
                       </h4>
-                      <Form onSubmit={_submitRapidTest}>
+                      {!_.isEmpty(props?.covid?.error) ? (
+                        <Alert color="danger">
+                          <h4>{props.covid?.error?.message} </h4>
+                          <p>{props.covid?.error?.trace}</p>
+                        </Alert>
+                      ) : null}
+                      <Form onSubmit={_submitPCRTest}>
                         <FormGroup row>
                           <Col sm={{ size: 8, offset: 2 }}>
                             <FormGroup
@@ -301,12 +314,16 @@ const RapidConfirmScreen = (props: any) => {
                               </FormGroup>
                             </FormGroup>
                             <Input
+                              required
                               autoFocus
                               className="placeholder-center"
                               placeholder="กรอกหมายเลขบาร์โค๊ดที่นี่"
                               bsSize="lg"
+                              name="citizen_id"
                               value={input.citizen_id}
-                              onChange={_handleChangeInput}
+                              onChange={(e) =>
+                                _handleChangeInput("citizen_id", e.target.value)
+                              }
                             />
                             <div className="center">
                               <Button color="outline-primary" className="mt-2">
@@ -352,18 +369,18 @@ const RapidConfirmScreen = (props: any) => {
                                 <td>{pcr.fullname}</td>
                                 <td>{pcr.queqe_id}</td>
                                 <td>
-                                  {moment(pcr.checkin_datetime).format("lll")}{" "}
+                                  {moment(pcr.pcrtest_datetime).format("lll")}{" "}
                                   น.
                                 </td>
                                 <td
                                   className={
-                                    pcr.rapidtest_status === 1
+                                    pcr.pcrtest_status === 1
                                       ? "text-danger"
                                       : "text-success"
                                   }
                                 >
-                                  {pcr.rapidtest_status === 1
-                                    ? "ต้องตรวจ PCR TEST"
+                                  {pcr.pcrtest_status === 1
+                                    ? "ไม่ผ่าน"
                                     : "ผ่าน"}
                                 </td>
                               </tr>
@@ -403,4 +420,4 @@ const mapDispatchToProps = (dispatch: Function) => ({
   ) => dispatch(submitTestResult(type, citizen_id, status)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(RapidConfirmScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(ConfirmScreen);

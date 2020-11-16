@@ -67,7 +67,7 @@ export const submitTestResult = (
         isLoading: false,
         error: {
           code: 500,
-          message: "เกิดข้อผิดพลาดขณะทำการเรียกข้อมูล",
+          message: "มีบางอย่างเกิดขึ้น",
           trace: error.response?.data?.message,
         },
       })
