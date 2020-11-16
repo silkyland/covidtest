@@ -22,7 +22,7 @@ export const checkin = (citizen_id: string) => async (
         isLoading: false,
         error: {
           code: 500,
-          message: "เกิดข้อผิดพลาดขณะทำการเรียกข้อมูล",
+          message: "โปรดตรวจสอบ",
           trace: error.response?.data?.message,
         },
       })

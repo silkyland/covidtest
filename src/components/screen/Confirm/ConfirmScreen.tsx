@@ -229,7 +229,7 @@ const ConfirmScreen = (props: any): JSX.Element => {
                                   <td>{rapid.fullname}</td>
                                   <td>{rapid.queqe_id}</td>
                                   <td>
-                                    {moment(rapid.checkin_datetime).format(
+                                    {moment(rapid.rapidtest_datetime).format(
                                       "lll"
                                     )}{" "}
                                     น.
