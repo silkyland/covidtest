@@ -1,8 +1,8 @@
-import axios from "axios";
-import { set } from "lodash";
 import moment from "moment";
 import "moment/locale/th";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import Skelaton from "react-loading-skeleton";
+import { connect } from "react-redux";
 import {
   Alert,
   Button,
@@ -22,14 +22,13 @@ import {
   Table,
   TabPane,
 } from "reactstrap";
-import Swal from "sweetalert2";
-import config from "../../../config/index";
+import {
+  fetchPCRTestList,
+  fetchRapidTestList,
+  submitTestResult,
+} from "../../../store/actions/covid";
 import { CovidTest, CovidTestResult } from "../../../utils/interface";
 import "../Home/home.css";
-import { Dispatch } from "redux";
-import { connect } from "react-redux";
-import { fetchQueqe } from "../../../store/actions/covid";
-import Skelaton from "react-loading-skeleton";
 
 moment.locale("th");
 
@@ -40,7 +39,7 @@ const RapidConfirmScreen = (props: any) => {
     status: CovidTestResult.PASS,
   });
 
-  const { queqes } = props;
+  const { rapids, pcrs } = props;
 
   const checkTab = async () => {
     const tab = await localStorage.getItem("tab");
@@ -53,40 +52,13 @@ const RapidConfirmScreen = (props: any) => {
   };
 
   useEffect(() => {
-    props.fetchQueqe();
+    props.fetchRapidTestList();
+    props.fetchPCRTestList();
     checkTab();
   }, []);
 
-  const _handleSelectRadioChange = (value: CovidTestResult): void => {};
-
-  const _handleSubmitSearch = async (e: React.FormEvent<HTMLFormElement>) => {
-    try {
-      e.preventDefault();
-      const respose = await axios.post(
-        `${config.api.server}/covid/rapidTestConfirm`,
-        {
-          citizen_id: input.citizen_id,
-        }
-      );
-
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "ข้อมูลได้ถูกส่งไปยังเครื่งพิมพ์เรียบร้อยแล้ว",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-
-      setInput({ ...input, citizen_id: "" });
-    } catch (error) {
-      Swal.fire({
-        position: "top-end",
-        icon: "error",
-        title: error.response.data.message,
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    }
+  const _handleSelectRadioChange = (name: string, value: string): void => {
+    setInput({ ...input, [name]: parseInt(value) });
   };
 
   const _handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,6 +69,16 @@ const RapidConfirmScreen = (props: any) => {
   const handleChangeTab = async (index: number): Promise<void> => {
     await localStorage.setItem("tab", index.toString());
     setActiveTab(index);
+  };
+
+  const _submitRapidTest = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    props.submitTestResult("RAPID", input.citizen_id, input.status);
+  };
+
+  const _submitPCRTest = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    props.submitTestResult("PCR", input.citizen_id, input.status);
   };
 
   return (
@@ -140,7 +122,7 @@ const RapidConfirmScreen = (props: any) => {
                       <h4 className="text-color-333">
                         บันทึกผลการตรวจ RAPID TEST
                       </h4>
-                      <Form onSubmit={_handleSubmitSearch}>
+                      <Form onSubmit={_submitRapidTest}>
                         <FormGroup row>
                           <Col sm={{ size: 8, offset: 2 }}>
                             <FormGroup
@@ -154,7 +136,12 @@ const RapidConfirmScreen = (props: any) => {
                                     type="radio"
                                     name="status"
                                     value={CovidTestResult.PASS}
-                                    onChange={_handleChangeInput}
+                                    onChange={(e) =>
+                                      _handleSelectRadioChange(
+                                        e.target.name,
+                                        e.target.value
+                                      )
+                                    }
                                     checked={
                                       input.status === CovidTestResult.PASS
                                     }
@@ -168,7 +155,12 @@ const RapidConfirmScreen = (props: any) => {
                                     type="radio"
                                     name="status"
                                     value={CovidTestResult.FAIL}
-                                    onChange={_handleChangeInput}
+                                    onChange={(e) =>
+                                      _handleSelectRadioChange(
+                                        e.target.name,
+                                        e.target.value
+                                      )
+                                    }
                                     checked={
                                       input.status === CovidTestResult.FAIL
                                     }
@@ -200,41 +192,51 @@ const RapidConfirmScreen = (props: any) => {
                       <i className="fa fa-user" aria-hidden="true"></i>{" "}
                       รายการผลการตรวจสอบ
                     </h4>
-                    {queqes.isLoading ? (
+                    {rapids.isLoading ? (
                       <Skelaton count={5} />
-                    ) : queqes.error ? (
+                    ) : rapids.error ? (
                       <Alert color="danger">
-                        {queqes.error.message} <p>{queqes.error.trace}</p>
+                        {rapids.error.message} <p>{rapids.error.trace}</p>
                       </Alert>
                     ) : (
                       <Table striped hover className="tableBodyScroll rounded">
                         <thead>
                           <tr>
-                            <th>รหัส</th>
-                            <th>คิว</th>
                             <th>ชื่อ-สกุล</th>
+                            <th>คิว</th>
                             <th>เวลา</th>
+                            <th>ผล</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {queqes.data.length < 1 ? (
+                          {rapids.data.length < 1 ? (
                             <tr>
                               <td colSpan={4} className="text-center">
                                 = ไม่พบข้อมูล =
                               </td>
                             </tr>
                           ) : (
-                            queqes.data.map(
-                              (queqe: CovidTest, index: number) => (
+                            rapids.data.map(
+                              (rapid: CovidTest, index: number) => (
                                 <tr key={index}>
-                                  <td>{queqe.citizen_id}</td>
-                                  <td>{queqe.queqe_id}</td>
-                                  <td>{queqe.fullname}</td>
+                                  <td>{rapid.fullname}</td>
+                                  <td>{rapid.queqe_id}</td>
                                   <td>
-                                    {moment(queqe.checkin_datetime).format(
+                                    {moment(rapid.checkin_datetime).format(
                                       "lll"
                                     )}{" "}
                                     น.
+                                  </td>
+                                  <td
+                                    className={
+                                      rapid.rapidtest_status === 1
+                                        ? "text-danger"
+                                        : "text-success"
+                                    }
+                                  >
+                                    {rapid.rapidtest_status === 1
+                                      ? "ต้องตรวจ PCR TEST"
+                                      : "ผ่าน"}
                                   </td>
                                 </tr>
                               )
@@ -247,27 +249,130 @@ const RapidConfirmScreen = (props: any) => {
                 </TabPane>
                 <TabPane tabId={1}>
                   <Row>
-                    <Col sm="6">
-                      <Card body>
-                        <CardTitle>Special Title Treatment</CardTitle>
-                        <CardText>
-                          With supporting text below as a natural lead-in to
-                          additional content.
-                        </CardText>
-                        <Button>Go somewhere</Button>
-                      </Card>
-                    </Col>
-                    <Col sm="6">
-                      <Card body>
-                        <CardTitle>Special Title Treatment</CardTitle>
-                        <CardText>
-                          With supporting text below as a natural lead-in to
-                          additional content.
-                        </CardText>
-                        <Button>Go somewhere</Button>
-                      </Card>
+                    <Col sm="12">
+                      <h4 className="text-color-333">
+                        บันทึกผลการตรวจ PCR TEST
+                      </h4>
+                      <Form onSubmit={_submitRapidTest}>
+                        <FormGroup row>
+                          <Col sm={{ size: 8, offset: 2 }}>
+                            <FormGroup
+                              tag="fieldset"
+                              className="text-color-333"
+                            >
+                              <legend>ผลตรวจ</legend>
+                              <FormGroup check>
+                                <Label check>
+                                  <Input
+                                    type="radio"
+                                    name="status"
+                                    value={CovidTestResult.PASS}
+                                    onChange={(e) =>
+                                      _handleSelectRadioChange(
+                                        e.target.name,
+                                        e.target.value
+                                      )
+                                    }
+                                    checked={
+                                      input.status === CovidTestResult.PASS
+                                    }
+                                  />{" "}
+                                  😀 ผลการตรวจผ่าน
+                                </Label>
+                              </FormGroup>
+                              <FormGroup check>
+                                <Label check>
+                                  <Input
+                                    type="radio"
+                                    name="status"
+                                    value={CovidTestResult.FAIL}
+                                    onChange={(e) =>
+                                      _handleSelectRadioChange(
+                                        e.target.name,
+                                        e.target.value
+                                      )
+                                    }
+                                    checked={
+                                      input.status === CovidTestResult.FAIL
+                                    }
+                                  />{" "}
+                                  🤧 ผลการตรวจไม่ผ่าน
+                                </Label>
+                              </FormGroup>
+                            </FormGroup>
+                            <Input
+                              autoFocus
+                              className="placeholder-center"
+                              placeholder="กรอกหมายเลขบาร์โค๊ดที่นี่"
+                              bsSize="lg"
+                              value={input.citizen_id}
+                              onChange={_handleChangeInput}
+                            />
+                            <div className="center">
+                              <Button color="outline-primary" className="mt-2">
+                                💾 บันทึกผล
+                              </Button>
+                            </div>
+                          </Col>
+                        </FormGroup>
+                      </Form>
                     </Col>
                   </Row>
+                  <div className="bg-white rounded">
+                    <h4 className="text-dark p-3">
+                      <i className="fa fa-user" aria-hidden="true"></i>{" "}
+                      รายการผลการตรวจสอบ
+                    </h4>
+                    {pcrs.isLoading ? (
+                      <Skelaton count={5} />
+                    ) : pcrs.error ? (
+                      <Alert color="danger">
+                        {pcrs.error.message} <p>{pcrs.error.trace}</p>
+                      </Alert>
+                    ) : (
+                      <Table striped hover className="tableBodyScroll rounded">
+                        <thead>
+                          <tr>
+                            <th>ชื่อ-สกุล</th>
+                            <th>คิว</th>
+                            <th>เวลา</th>
+                            <th>ผล</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {pcrs.data.length < 1 ? (
+                            <tr>
+                              <td colSpan={4} className="text-center">
+                                = ไม่พบข้อมูล =
+                              </td>
+                            </tr>
+                          ) : (
+                            pcrs.data?.map((pcr: CovidTest, index: number) => (
+                              <tr key={index}>
+                                <td>{pcr.fullname}</td>
+                                <td>{pcr.queqe_id}</td>
+                                <td>
+                                  {moment(pcr.checkin_datetime).format("lll")}{" "}
+                                  น.
+                                </td>
+                                <td
+                                  className={
+                                    pcr.rapidtest_status === 1
+                                      ? "text-danger"
+                                      : "text-success"
+                                  }
+                                >
+                                  {pcr.rapidtest_status === 1
+                                    ? "ต้องตรวจ PCR TEST"
+                                    : "ผ่าน"}
+                                </td>
+                              </tr>
+                            ))
+                          )}
+                        </tbody>
+                      </Table>
+                    )}
+                  </div>
                 </TabPane>
               </TabContent>
             </div>
@@ -284,10 +389,18 @@ const mapStateToProps = (state: any) => ({
   queqes: state.covid.queqes,
   covid: state.covid.covid,
   covids: state.covid.covids,
+  rapids: state.covid.rapids,
+  pcrs: state.covid.pcrs,
 });
 
 const mapDispatchToProps = (dispatch: Function) => ({
-  fetchQueqe: () => dispatch(fetchQueqe()),
+  fetchRapidTestList: () => dispatch(fetchRapidTestList()),
+  fetchPCRTestList: () => dispatch(fetchPCRTestList()),
+  submitTestResult: (
+    type: "RAPID" | "PCR",
+    citizen_id: string,
+    status: CovidTestResult.PASS | CovidTestResult.FAIL
+  ) => dispatch(submitTestResult(type, citizen_id, status)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(RapidConfirmScreen);
