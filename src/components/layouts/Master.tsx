@@ -10,14 +10,15 @@ import {
 import { Button, Container } from "reactstrap";
 import ConfirmScreen from "../screen/Confirm/ConfirmScreen";
 import HomeScreen from "../screen/Home/HomeScreen";
-import ReprintScreen from "../screen/Home/ReprintScreen";
+import ReprintScreen from "../screen/Print/ReprintScreen";
 import "./master.css";
+import CheckScreen from "../screen/Check/CheckScreen";
 
 const Master = (props: any) => {
   const menuList = [
     { id: 1, to: "/", icon: "fa-search", name: "เช็คอิน" },
     { id: 2, to: "/result", icon: "fa-save", name: "บันทึกผล" },
-    { id: 3, to: "/crop", icon: "fa-crop", name: "ตรวจสอบ" },
+    { id: 3, to: "/check", icon: "fa-crop", name: "ตรวจสอบ" },
     {
       id: 4,
       external: true,
@@ -83,15 +84,19 @@ const Master = (props: any) => {
                 path="/"
                 render={(props) => <HomeScreen {...props} />}
               />
-              <Route
-                path="/reprint"
-                render={(props) => <ReprintScreen {...props} />}
-              />
+
               <Route
                 path="/result"
                 render={(props) => <ConfirmScreen {...props} />}
               />
-
+              <Route
+                path="/check"
+                render={(props) => <CheckScreen {...props} />}
+              />
+              <Route
+                path="/reprint"
+                render={(props) => <ReprintScreen {...props} />}
+              />
               <Redirect path="*" to="/404" />
             </Switch>
           </div>

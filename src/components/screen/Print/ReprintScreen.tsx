@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { Button, Col, Form, FormGroup, Input } from "reactstrap";
 import Swal from "sweetalert2";
 import config from "../../../config/index";
-import "./home.css";
+import "../Home/home.css";
 
 moment.locale("th");
 
@@ -62,10 +62,7 @@ const ReprintScreen = (props: any) => {
                     onChange={_handleChangeInput}
                   />
                   <div className="center">
-                    <Button
-                      color="outline-warning"
-                      className="mt-2"
-                    >
+                    <Button color="outline-warning" className="mt-2">
                       <i className="fa fa-print" aria-hidden="true"></i>{" "}
                       พิมพ์คิวใหม่
                     </Button>
