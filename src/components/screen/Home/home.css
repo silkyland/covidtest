@@ -18,3 +18,10 @@ table.tableBodyScroll tbody tr {
 .text-color-333 {
   color: #333;
 }
+
+input[type="radio"] {
+  transform: scale(3);
+}
+.font-2x{
+  font-size: 25px;
+}

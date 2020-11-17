@@ -7,12 +7,14 @@ export enum covidAction {
   ADD_QUEQE = "ADD_QUEQE",
   ADD_RAPID = "ADD_RAPID",
   ADD_PCR = "ADD_PCR",
+  ADD_BILLBOARD = "ADD_BILLBOARD",
   SET_COVIDS = "SET_COVIDS",
   UPDATE_COVID = "UPDATE_COVID",
   DELETE_COVID = "DELETE_COVID",
   SET_QUEQES = "SET_QUEQES",
   SET_RAPIDS = "SET_RAPIDS",
   SET_PCRS = "SET_PCRS",
+  SET_BILLBOARDS = "SET_BILLBOARDS",
 }
 
 const initialState = {
@@ -37,6 +39,11 @@ const initialState = {
     data: [] as Array<CovidTest>,
   },
   queqes: {
+    isLoading: false as Boolean,
+    error: {} as errorState,
+    data: [] as Array<CovidTest>,
+  },
+  billboards: {
     isLoading: false as Boolean,
     error: {} as errorState,
     data: [] as Array<CovidTest>,
@@ -128,6 +135,8 @@ const CovidReducer = (
       return { ...state, rapids: action.payload };
     case covidAction.SET_PCRS:
       return { ...state, pcrs: action.payload };
+    case covidAction.SET_BILLBOARDS:
+      return { ...state, billboards: action.payload };
     default:
       return state;
   }

@@ -4,7 +4,7 @@ import "moment/locale/th";
 import React, { useState } from "react";
 import { Button, Col, Form, FormGroup, Input } from "reactstrap";
 import Swal from "sweetalert2";
-import config from "../../../config/index";
+import config from "../../../config";
 import "../Home/home.css";
 
 moment.locale("th");

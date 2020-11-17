@@ -84,7 +84,7 @@ const ConfirmScreen = (props: any): JSX.Element => {
     <div>
       <div className="p-5">
         <div className="main-content">
-          <h1>บันทึกผลตรวจ COVID-19</h1>
+          <h1>จุดที่ 2 บันทึกผลตรวจ COVID-19</h1>
           <div className="mt-5">
             <div>
               <Nav tabs>
@@ -135,8 +135,8 @@ const ConfirmScreen = (props: any): JSX.Element => {
                               className="text-color-333"
                             >
                               <legend>ผลตรวจ</legend>
-                              <FormGroup check>
-                                <Label check>
+                              <FormGroup check className="mb-3">
+                                <Label check className="mr-5 mb-3">
                                   <Input
                                     type="radio"
                                     name="status"
@@ -151,10 +151,11 @@ const ConfirmScreen = (props: any): JSX.Element => {
                                       input.status === CovidTestResult.PASS
                                     }
                                   />{" "}
-                                  😀 ผลการตรวจผ่าน
+                                  <span className="ml-3 font-2x">
+                                    {" "}
+                                    😀 ผลการตรวจผ่าน
+                                  </span>
                                 </Label>
-                              </FormGroup>
-                              <FormGroup check>
                                 <Label check>
                                   <Input
                                     type="radio"
@@ -170,7 +171,9 @@ const ConfirmScreen = (props: any): JSX.Element => {
                                       input.status === CovidTestResult.FAIL
                                     }
                                   />{" "}
-                                  🤧 ผลการตรวจไม่ผ่าน
+                                  <span className="ml-3 font-2x">
+                                    🤧 ผลการตรวจไม่ผ่าน
+                                  </span>
                                 </Label>
                               </FormGroup>
                             </FormGroup>
@@ -274,8 +277,8 @@ const ConfirmScreen = (props: any): JSX.Element => {
                               className="text-color-333"
                             >
                               <legend>ผลตรวจ</legend>
-                              <FormGroup check>
-                                <Label check>
+                              <FormGroup check className="mb-3">
+                                <Label check className="mr-5 mb-3">
                                   <Input
                                     type="radio"
                                     name="status"
@@ -290,10 +293,11 @@ const ConfirmScreen = (props: any): JSX.Element => {
                                       input.status === CovidTestResult.PASS
                                     }
                                   />{" "}
-                                  😀 ผลการตรวจผ่าน
+                                  <span className="ml-3 font-2x">
+                                    {" "}
+                                    😀 ผลการตรวจผ่าน
+                                  </span>
                                 </Label>
-                              </FormGroup>
-                              <FormGroup check>
                                 <Label check>
                                   <Input
                                     type="radio"
@@ -309,7 +313,9 @@ const ConfirmScreen = (props: any): JSX.Element => {
                                       input.status === CovidTestResult.FAIL
                                     }
                                   />{" "}
-                                  🤧 ผลการตรวจไม่ผ่าน
+                                  <span className="ml-3 font-2x">
+                                    🤧 ผลการตรวจไม่ผ่าน
+                                  </span>
                                 </Label>
                               </FormGroup>
                             </FormGroup>

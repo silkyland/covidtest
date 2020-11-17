@@ -35,7 +35,7 @@ const HomeScreen = (props: any) => {
     <div>
       <div className="p-5">
         <div className="main-content">
-          <h1>เช็คอินรับบัตรคิว</h1>
+          <h1>จุดที่ 1 รับบัตรคิว</h1>
           {!_.isEmpty(covid.error) ? (
             <Alert color="danger">
               <h4>{covid.error.message}</h4> {covid.error.trace}
