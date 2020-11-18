@@ -18,7 +18,6 @@ import {
 } from "reactstrap";
 import {
   fetchPCRTestList,
-  fetchRapidTestList,
   submitTestResult,
 } from "../../../store/actions/covid";
 import { CovidTest, CovidTestResult } from "../../../utils/interface";
@@ -35,7 +34,6 @@ const ConfirmScreen = (props: any): JSX.Element => {
   const { pcrs } = props;
 
   useEffect(() => {
-    props.fetchRapidTestList();
     props.fetchPCRTestList();
   }, []);
 
@@ -49,7 +47,7 @@ const ConfirmScreen = (props: any): JSX.Element => {
 
   const _submitRapidTest = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    props.submitTestResult("RAPID", input.citizen_id, input.status);
+    props.submitTestResult("PCR", input.citizen_id, input.status);
     setInput({ ...input, citizen_id: "", status: CovidTestResult.PASS });
   };
 
@@ -190,7 +188,6 @@ const mapStateToProps = (state: any) => ({
 });
 
 const mapDispatchToProps = (dispatch: Function) => ({
-  fetchRapidTestList: () => dispatch(fetchRapidTestList()),
   fetchPCRTestList: () => dispatch(fetchPCRTestList()),
   submitTestResult: (
     type: "RAPID" | "PCR",

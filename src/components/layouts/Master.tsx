@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, Redirect, Route, Switch } from "react-router-dom";
 import { Container } from "reactstrap";
 import CheckScreen from "../screen/Check/CheckScreen";
+import CheckoutScreen from "../screen/Checkout/CheckoutScreen";
 import ConfirmScreen from "../screen/Confirm/ConfirmScreen";
 import HomeScreen from "../screen/Home/HomeScreen";
 import ReprintScreen from "../screen/Print/ReprintScreen";
@@ -11,7 +12,7 @@ const Master = (props: any) => {
   const menuList = [
     { id: 1, to: "/", icon: "fa-id-card-o", name: "รับบัตรคิว" },
     { id: 2, to: "/rapid", icon: "fa-thermometer", name: "RAPIDTEST" },
-    { id: 3, to: "/check", icon: "fa-check", name: "รับสติกเกอร์" },
+    { id: 3, to: "/checkout", icon: "fa-check", name: "รับสติกเกอร์" },
     {
       id: 4,
       external: true,
@@ -90,7 +91,11 @@ const Master = (props: any) => {
                 path="/reprint"
                 render={(props) => <ReprintScreen {...props} />}
               />
-              <Redirect path="*" to="/" />
+              <Route
+                path="/checkout"
+                render={(props) => <CheckoutScreen {...props} />}
+              />
+              <Redirect path="*" to="404" />
             </Switch>
           </div>
         </div>

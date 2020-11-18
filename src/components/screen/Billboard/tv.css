@@ -1,6 +1,7 @@
 .text-bigger {
   font-size: 30px;
 }
+
 article {
   /* -webkit-columns: 2 200px;
   -moz-columns: 2 200px; */
@@ -9,6 +10,7 @@ article {
   column-rule: 4px solid #ebebeb;
   max-height: 990px;
   overflow: hidden;
+  min-height: 980px;
 }
 
 .text-italic-25 {

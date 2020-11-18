@@ -1,47 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
-import { Col, Container, Row, Table } from "reactstrap";
-import faker from "faker";
-import _ from "lodash";
-
+import { Container } from "reactstrap";
+import { fetchBillboards } from "../../../store/actions/covid";
+import { CovidTest } from "../../../utils/interface";
 import "./tv.css";
-import { AnyAction } from "redux";
+
 
 const BillboardScreen = (props: any): JSX.Element => {
-  const renderFakeAPI = () => {
-    let data: any = [];
-    let i = 1;
-    _.times(48, () => {
-      data.push({ queqe: i, name: faker.name.findName() });
-      i++;
-    });
-
-    return data
-      .sort((a: any, b: any) => b.queqe - a.queqe)
-      .map((d: any) => (
-        <p className="text-bigger">
-          <strong>คิว {d.queqe}</strong> {d.name}{" "}
-          <span className="text-success text-italic-25">ผลออกแล้ว</span>
-        </p>
-      ));
-  };
+  useEffect(() => {
+    props.fetchBillboards();
+  }, []);
+  const { billboards } = props;
   return (
     <div>
       <Container fluid>
         <h1 className="mt-2" style={{ fontSize: 30, fontWeight: "bolder" }}>
-          รายชื่อผลการตรวจ RAPID TEST <small>* โปรดตรวจสอบผลที่ช่องทางออก</small>
+          รายชื่อผลการตรวจ RAPID TEST{" "}
+          <small>* โปรดตรวจสอบผลที่ช่องทางออก</small>
         </h1>
         <div className="bg-white rounded p-3 mt-1">
-          <article>{renderFakeAPI()}</article>
+          <article>
+            {billboards.data.map((bb: CovidTest) => (
+              <p className="text-bigger" key={bb.citizen_id}>
+                <strong>คิว {bb.queqe_id}</strong> {bb.fullname}{" "}
+                <span className="text-success text-italic-25">ผลออกแล้ว</span>
+              </p>
+            ))}
+          </article>
         </div>
       </Container>
     </div>
   );
 };
 
-const mapStateToProps = (state: any) => ({});
+const mapStateToProps = (state: any) => ({
+  billboards: state.covid.billboards,
+});
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({});
+const mapDispatchToProps = (dispatch: Function) => ({
+  fetchBillboards: () => dispatch(fetchBillboards()),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(BillboardScreen);

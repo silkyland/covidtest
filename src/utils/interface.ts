@@ -46,6 +46,7 @@ export interface CovidTest {
   rapidtest_status: CovidTestResult;
   pcrtest_datetime: Date;
   pcrtest_status: CovidTestResult;
+  checkout: Date;
   created_at: Date;
   updated_at: Date;
 }

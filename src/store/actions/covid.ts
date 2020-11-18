@@ -212,6 +212,37 @@ export const fetchPCRTestList = () => async (
   }
 };
 
+export const fetchBillboards = () => async (
+  dispatch: Dispatch<AnyAction>
+): Promise<void> => {
+  try {
+    dispatch(setBillboards({ isLoading: true, data: [] }));
+    const response = await Axios.get(`${config.api.server}/covid/billboard`);
+    dispatch(setBillboards({ isLoading: false, data: response.data }));
+  } catch (error) {
+    dispatch(
+      setBillboards({
+        isLoading: false,
+        data: [],
+        error: {
+          code: 500,
+          message: "เกิดข้อผิดพลาดขณะทำการเรียกข้อมูล",
+          trace: error.response?.data?.message,
+        },
+      })
+    );
+    // setTimeout(() => {
+    //   dispatch(
+    //     setQueqes({
+    //       isLoading: false,
+    //       data: [],
+    //       error: {},
+    //     })
+    //   );
+    // }, 3000);
+  }
+};
+
 const deleteCovid = (id: string) => ({
   type: covidAction.DELETE_COVID,
   payload: id,
@@ -229,6 +260,11 @@ const addRapid = (data: ResponseData) => ({
 
 const addPCR = (data: ResponseData) => ({
   type: covidAction.ADD_PCR,
+  payload: data,
+});
+
+const addBillboard = (data: ResponseData) => ({
+  type: covidAction.ADD_BILLBOARD,
   payload: data,
 });
 
@@ -254,5 +290,10 @@ const setRapids = (data: ResponseData) => ({
 
 const setPCRs = (data: ResponseData) => ({
   type: covidAction.SET_PCRS,
+  payload: data,
+});
+
+const setBillboards = (data: ResponseData) => ({
+  type: covidAction.SET_BILLBOARDS,
   payload: data,
 });
