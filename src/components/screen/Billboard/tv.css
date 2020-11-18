@@ -17,3 +17,15 @@ article {
   font-size: 25px;
   font-style: italic;
 }
+
+.tv-height {
+  min-height: 1000px;
+}
+
+.awssld__content {
+  background: #fff !important;
+  padding: 20px;
+  display: block !important;
+  /* align-items: center;
+  justify-content: center; */
+}
