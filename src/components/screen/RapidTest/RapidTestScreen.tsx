@@ -16,6 +16,7 @@ import {
   Row,
   Table,
 } from "reactstrap";
+import Swal from "sweetalert2";
 import {
   fetchPCRTestList,
   fetchRapidTestList,
@@ -59,8 +60,20 @@ const ConfirmScreen = (props: any): JSX.Element => {
     setInput({ ...input, [field]: value });
   };
 
-  const _submitRapidTest = (e: React.FormEvent<HTMLFormElement>): void => {
+  const _submitRapidTest = async (
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<any> => {
     e.preventDefault();
+    if (input.status === CovidTestResult.FAIL) {
+      const confirmation = await Swal.fire({
+        title: "แน่ใจหรือไม่ที่จะเลือกตัวเลือกนี้ ?",
+        confirmButtonText: "ยืนยัน",
+        showCancelButton: true,
+      });
+      if (!confirmation.isConfirmed) {
+        return false;
+      }
+    }
     props.submitTestResult("RAPID", input.citizen_id, input.status);
     setInput({ ...input, citizen_id: "", status: CovidTestResult.PASS });
   };

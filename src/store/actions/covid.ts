@@ -4,7 +4,6 @@ import config from "../../config";
 import { CovidTestResult, ResponseData } from "../../utils/interface";
 import { covidAction } from "../reducers/covidReducer";
 import fetchAPI from "../services/fetchApi";
-import { errorState, setErrorState } from "./mics";
 
 export const checkin = (citizen_id: string) => async (
   dispatch: Dispatch<AnyAction>
