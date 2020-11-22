@@ -49,7 +49,7 @@ const CheckoutScreen = (props: any) => {
     <div>
       <div className="p-5">
         <div className="main-content">
-          <h1>รับสติกเกอร์</h1>
+          <h1>จุดที่ 3 รับสติกเกอร์</h1>
           <div className="m-5">
             <Form onSubmit={_handleSubmitSearch}>
               <FormGroup row>

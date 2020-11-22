@@ -15,6 +15,7 @@ export enum covidAction {
   SET_RAPIDS = "SET_RAPIDS",
   SET_PCRS = "SET_PCRS",
   SET_BILLBOARDS = "SET_BILLBOARDS",
+  SET_BILLBOARDS_NOT_NULL = "SET_BILLBOARDS_NOT_NULL",
 }
 
 const initialState = {

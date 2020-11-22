@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { Col, Container, Row } from "reactstrap";
-import { fetchBillboards } from "../../../store/actions/covid";
+import {
+  fetchBillboards,
+  fetchBillboardsNoLoadingTime,
+} from "../../../store/actions/covid";
 import { CovidTest } from "../../../utils/interface";
 import "./tv.css";
 import _ from "lodash";
@@ -15,7 +18,14 @@ const AutoplaySlider = withAutoplay(AwesomeSlider);
 const BillboardScreen = (props: any): JSX.Element => {
   useEffect(() => {
     props.fetchBillboards();
+    startTimer();
   }, []);
+
+  const startTimer = (): void => {
+    setInterval(() => {
+      props.fetchBillboardsNoLoadingTime();
+    }, 5000);
+  };
 
   const renderFakeAPI = () => {
     let data: any = [];
@@ -133,6 +143,7 @@ const mapStateToProps = (state: any) => ({
 
 const mapDispatchToProps = (dispatch: Function) => ({
   fetchBillboards: () => dispatch(fetchBillboards()),
+  fetchBillboardsNoLoadingTime: () => dispatch(fetchBillboardsNoLoadingTime()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(BillboardScreen);

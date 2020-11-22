@@ -242,6 +242,35 @@ export const fetchBillboards = () => async (
   }
 };
 
+export const fetchBillboardsNoLoadingTime = () => async (
+  dispatch: Dispatch<AnyAction>
+): Promise<void> => {
+  try {
+    const response = await Axios.get(`${config.api.server}/covid/billboard`);
+    dispatch(setBillboards({ data: response.data }));
+  } catch (error) {
+    dispatch(
+      setBillboards({
+        data: [],
+        error: {
+          code: 500,
+          message: "เกิดข้อผิดพลาดขณะทำการเรียกข้อมูล",
+          trace: error.response?.data?.message,
+        },
+      })
+    );
+    // setTimeout(() => {
+    //   dispatch(
+    //     setQueqes({
+    //       isLoading: false,
+    //       data: [],
+    //       error: {},
+    //     })
+    //   );
+    // }, 3000);
+  }
+};
+
 const deleteCovid = (id: string) => ({
   type: covidAction.DELETE_COVID,
   payload: id,
