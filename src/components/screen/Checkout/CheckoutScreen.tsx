@@ -28,7 +28,7 @@ const CheckoutScreen = (props: any) => {
       setCitizenId("");
     } catch (error) {
       Swal.fire({
-        position: "top-end",
+        position: "center",
         icon: "error",
         title: error.response.data.message,
         showConfirmButton: false,
