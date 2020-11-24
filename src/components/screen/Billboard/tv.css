@@ -2,17 +2,6 @@
   font-size: 30px;
 }
 
-article {
-  /* -webkit-columns: 2 200px;
-  -moz-columns: 2 200px; */
-  columns: 3 300px;
-  column-gap: 40px;
-  column-rule: 4px solid #ebebeb;
-  max-height: 990px;
-  overflow: hidden;
-  min-height: 980px;
-}
-
 .text-italic-25 {
   font-size: 25px;
   font-style: italic;
