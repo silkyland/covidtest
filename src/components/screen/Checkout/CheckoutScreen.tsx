@@ -32,7 +32,9 @@ const CheckoutScreen = (props: any) => {
         icon: "error",
         title: error.response.data.message,
         showConfirmButton: false,
-        timer: 1500,
+        timer: 3000,
+        width: 1200,
+        imageHeight: 500,
       });
     }
     setCitizenId("");
