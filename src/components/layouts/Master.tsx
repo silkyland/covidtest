@@ -5,7 +5,10 @@ import CheckScreen from "../screen/Check/CheckScreen";
 import CheckoutScreen from "../screen/Checkout/CheckoutScreen";
 import ConfirmScreen from "../screen/Confirm/ConfirmScreen";
 import HomeScreen from "../screen/Home/HomeScreen";
+import PCRTestScreen from "../screen/PCRTest/PCRTestScreen";
 import ReprintScreen from "../screen/Print/ReprintScreen";
+import RapidTestScreen from "../screen/RapidTest/RapidTestScreen";
+import ReportScreen from "../screen/Report/ReportScreen";
 import "./master.css";
 
 const Master = (props: any) => {
@@ -33,12 +36,14 @@ const Master = (props: any) => {
 
   return (
     <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
+      style={
+        {
+          // display: "flex",
+          // justifyContent: "center",
+          // alignItems: "center",
+          // height: "100vh",
+        }
+      }
     >
       <Container>
         <div className="bg-gradient body-container border-radius-10 shadow-sm p-3 bg-white">
@@ -94,6 +99,18 @@ const Master = (props: any) => {
               <Route
                 path="/checkout"
                 render={(props) => <CheckoutScreen {...props} />}
+              />
+              <Route
+                path="/report"
+                render={(props) => <ReportScreen {...props} />}
+              />
+              <Route
+                path="/rapid"
+                render={(props) => <RapidTestScreen {...props} />}
+              />
+              <Route
+                path="/pcr"
+                render={(props) => <PCRTestScreen {...props} />}
               />
               <Redirect path="*" to="404" />
             </Switch>

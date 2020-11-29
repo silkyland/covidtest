@@ -95,7 +95,10 @@ const ConfirmScreen = (props: any): JSX.Element => {
                           }
                           checked={input.status === CovidTestResult.PASS}
                         />{" "}
-                        <span className="ml-3 font-2x"> 😀 ผลการตรวจผ่าน</span>
+                        <span className="ml-3 font-2x text-white">
+                          {" "}
+                          😀 ผลการตรวจผ่าน
+                        </span>
                       </Label>
                       <Label check>
                         <Input
@@ -110,7 +113,7 @@ const ConfirmScreen = (props: any): JSX.Element => {
                           }
                           checked={input.status === CovidTestResult.FAIL}
                         />{" "}
-                        <span className="ml-3 font-2x">
+                        <span className="ml-3 font-2x text-white">
                           🤧 ผลการตรวจไม่ผ่าน
                         </span>
                       </Label>
@@ -127,8 +130,8 @@ const ConfirmScreen = (props: any): JSX.Element => {
                     }
                   />
                   <div className="center">
-                    <Button color="outline-primary" className="mt-2">
-                      💾 บันทึกผล
+                    <Button color="primary" className="mt-2">
+                      บันทึกผล
                     </Button>
                   </div>
                 </Col>

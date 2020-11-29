@@ -18,8 +18,6 @@ function App() {
       <Router>
         <Switch>
           <Route path="/tv" component={BillboardScreen} />
-          <Route path="/rapid" component={RapidTestScreen} />
-          <Route path="/pcr" component={PCRTestScreen} />
           <Route path="/" render={(props) => <Master {...props} />} />
         </Switch>
       </Router>
