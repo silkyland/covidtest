@@ -72,7 +72,7 @@ const Master = (props: any) => {
                 ))}
               </ul>
             </nav>
-            <div className="right-menus">V.0.0.1-beta1</div>
+            <div className="right-menus">V.1.0.0-beta1</div>
           </div>
           <div>
             <Switch>
@@ -86,10 +86,10 @@ const Master = (props: any) => {
                 path="/result"
                 render={(props) => <ConfirmScreen {...props} />}
               />
-              <Route
+              {/* <Route
                 path="/check"
                 render={(props) => <CheckScreen {...props} />}
-              />
+              /> */}
               <Route
                 path="/reprint"
                 render={(props) => <ReprintScreen {...props} />}

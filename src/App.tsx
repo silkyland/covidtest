@@ -2,15 +2,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
 import {
   BrowserRouter as Router,
-  Redirect,
+
   Route,
-  Switch,
+  Switch
 } from "react-router-dom";
-import Master from "./components/layouts/Master";
 import "./App.css";
+import Master from "./components/layouts/Master";
 import BillboardScreen from "./components/screen/Billboard/BillboardScreen";
-import RapidTestScreen from "./components/screen/RapidTest/RapidTestScreen";
-import PCRTestScreen from "./components/screen/PCRTest/PCRTestScreen";
+import CheckScreen from "./components/screen/Check/CheckScreen";
 
 function App() {
   return (
@@ -18,6 +17,7 @@ function App() {
       <Router>
         <Switch>
           <Route path="/tv" component={BillboardScreen} />
+          <Route path="/check" component={CheckScreen} />
           <Route path="/" render={(props) => <Master {...props} />} />
         </Switch>
       </Router>
