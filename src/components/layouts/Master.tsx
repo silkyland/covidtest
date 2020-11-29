@@ -36,14 +36,12 @@ const Master = (props: any) => {
 
   return (
     <div
-      style={
-        {
-          // display: "flex",
-          // justifyContent: "center",
-          // alignItems: "center",
-          // height: "100vh",
-        }
-      }
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
     >
       <Container>
         <div className="bg-gradient body-container border-radius-10 shadow-sm p-3 bg-white">
