@@ -36,12 +36,14 @@ const ReportScreen = (props: any): JSX.Element => {
     report_covid_rapidtest: [],
     report_covid_rapidtest_failed: [],
     report_covid_rapidtest_passed: [],
-    rerport_covid_rapidtest_waiting: [],
+    report_covid_rapidtest_waiting: [],
+    report_covid_passed: [],
+    report_covid_failed: [],
   });
 
   enum reportType {
     REPORT_COVID_CHECKIN,
-    REPOR_COVID_PCRTEST_FAILED,
+    REPORT_COVID_PCRTEST_FAILED,
     REPORT_COVID_PCRTEST_PASSED,
     REPORT_COVID_PCRTEST_WAITING,
     REPORT_COVID_RAPIDTEST,
@@ -127,12 +129,12 @@ const ReportScreen = (props: any): JSX.Element => {
                   moment(row?.checkin_datetime).format("LLL"),
               },
             ]}
-            data={report?.rerport_covid_rapidtest_waiting}
+            data={report?.report_covid_rapidtest_waiting}
             actions={
               <Button
                 color="outline-primary"
                 onClick={() =>
-                  downloadCSV(report?.rerport_covid_rapidtest_waiting)
+                  downloadCSV(report?.report_covid_rapidtest_waiting)
                 }
               >
                 <i className="fa fa-file-excel-o"></i> ส่งออกเป็น CSV
@@ -228,6 +230,138 @@ const ReportScreen = (props: any): JSX.Element => {
             }
           />
         );
+      case reportType.REPORT_COVID_PCRTEST_WAITING:
+        return (
+          <DataTable
+            title={`ส่งตรวจ PCR จำนวน ${report.total.total_pcrtest_waiting} ราย`}
+            pagination
+            columns={[
+              { name: "เลขบัตร", selector: "citizen_id" },
+              { name: "ชื่อ-สกุล", selector: "fullname" },
+              {
+                name: "ออกคิวเมื่อ",
+                selector: "checkin_datetime",
+                format: (row: any) =>
+                  moment(row?.checkin_datetime).format("LLL"),
+              },
+            ]}
+            data={report?.report_covid_pcrtest_waiting}
+            actions={
+              <Button
+                color="outline-primary"
+                onClick={() =>
+                  downloadCSV(report?.report_covid_pcrtest_waiting)
+                }
+              >
+                <i className="fa fa-file-excel-o"></i> ส่งออกเป็น CSV
+              </Button>
+            }
+          />
+        );
+      case reportType.REPORT_COVID_PCRTEST_PASSED:
+        return (
+          <DataTable
+            title={`ผลตรวจ PCR ผ่าน จำนวน ${report.total.total_pcrtest_passed} ราย`}
+            pagination
+            columns={[
+              { name: "เลขบัตร", selector: "citizen_id" },
+              { name: "ชื่อ-สกุล", selector: "fullname" },
+              {
+                name: "ออกคิวเมื่อ",
+                selector: "checkin_datetime",
+                format: (row: any) =>
+                  moment(row?.checkin_datetime).format("LLL"),
+              },
+            ]}
+            data={report?.report_covid_pcrtest_passed}
+            actions={
+              <Button
+                color="outline-primary"
+                onClick={() => downloadCSV(report?.report_covid_pcrtest_passed)}
+              >
+                <i className="fa fa-file-excel-o"></i> ส่งออกเป็น CSV
+              </Button>
+            }
+          />
+        );
+      case reportType.REPORT_COVID_PCRTEST_FAILED:
+        return (
+          <DataTable
+            title={`ผลตรวจ PCR ไม่ผ่าน จำนวน ${report.total.total_pcrtest_failed} ราย`}
+            pagination
+            columns={[
+              { name: "เลขบัตร", selector: "citizen_id" },
+              { name: "ชื่อ-สกุล", selector: "fullname" },
+              {
+                name: "ออกคิวเมื่อ",
+                selector: "checkin_datetime",
+                format: (row: any) =>
+                  moment(row?.checkin_datetime).format("LLL"),
+              },
+            ]}
+            data={report?.report_covid_pcrtest_failed}
+            actions={
+              <Button
+                color="outline-primary"
+                onClick={() => downloadCSV(report?.report_covid_pcrtest_failed)}
+              >
+                <i className="fa fa-file-excel-o"></i> ส่งออกเป็น CSV
+              </Button>
+            }
+          />
+        );
+      case reportType.REPORT_COVID_TEST_PASSED:
+        return (
+          <DataTable
+            title={`รับสติกเกอร์แล้ว จำนวน ${report.total.total_covidtest_passed} ราย`}
+            pagination
+            columns={[
+              { name: "เลขบัตร", selector: "citizen_id" },
+              { name: "ชื่อ-สกุล", selector: "fullname" },
+              {
+                name: "ออกคิวเมื่อ",
+                selector: "checkin_datetime",
+                format: (row: any) =>
+                  moment(row?.checkin_datetime).format("LLL"),
+              },
+            ]}
+            data={report?.report_covid_passed}
+            actions={
+              <Button
+                color="outline-primary"
+                onClick={() => downloadCSV(report?.report_covid_passed)}
+              >
+                <i className="fa fa-file-excel-o"></i> ส่งออกเป็น CSV
+              </Button>
+            }
+          />
+        );
+      case reportType.REPORT_COVID_TEST_FAILED:
+        return (
+          <DataTable
+            title={`ส่งโรงพยาบาล ${report.total.total_covidtest_failed} ราย`}
+            pagination
+            columns={[
+              { name: "เลขบัตร", selector: "citizen_id" },
+              { name: "ชื่อ-สกุล", selector: "fullname" },
+              {
+                name: "ออกคิวเมื่อ",
+                selector: "checkin_datetime",
+                format: (row: any) =>
+                  moment(row?.checkin_datetime).format("LLL"),
+              },
+            ]}
+            data={report?.report_covid_failed}
+            actions={
+              <Button
+                color="outline-primary"
+                onClick={() => downloadCSV(report?.report_covid_failed)}
+              >
+                <i className="fa fa-file-excel-o"></i> ส่งออกเป็น CSV
+              </Button>
+            }
+          />
+        );
       default:
         return (
           <DataTable
@@ -297,7 +431,7 @@ const ReportScreen = (props: any): JSX.Element => {
     },
     {
       backgroundColor: "#8ECAE6",
-      name: "รอตรวจ PCR",
+      name: "ส่งตรวจ PCR",
       value: report.total.total_pcrtest_waiting,
       reportType: reportType.REPORT_COVID_PCRTEST_WAITING,
     },
@@ -311,7 +445,7 @@ const ReportScreen = (props: any): JSX.Element => {
       backgroundColor: "#023047",
       name: "PCR ไม่ผ่าน",
       value: report.total.total_pcrtest_failed,
-      reportType: reportType.REPOR_COVID_PCRTEST_FAILED,
+      reportType: reportType.REPORT_COVID_PCRTEST_FAILED,
     },
     {
       backgroundColor: "#FFB703",
