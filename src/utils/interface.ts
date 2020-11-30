@@ -57,12 +57,12 @@ export interface Personal {
   prefix: string;
   name: string;
   surname: string;
-  institute: number;
-  position_id: null;
-  picture: string;
+  institute?: number;
+  position_id?: null;
+  picture?: string;
   status_personal: number;
-  admin_id: number;
-  date_add: Date;
+  admin_id?: number;
+  date_add?: Date;
 }
 
 export interface UserPosition {
@@ -76,4 +76,9 @@ export interface Institute {
   instituteId: number;
   instituteNameTh: string;
   instituteNameEn: string;
+}
+
+export interface StatusPersonal {
+  status_id: number;
+  status_personal: string;
 }

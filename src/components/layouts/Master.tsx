@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Link, Redirect, Route, Switch } from "react-router-dom";
 import { Container } from "reactstrap";
-import CheckScreen from "../screen/Check/CheckScreen";
 import CheckoutScreen from "../screen/Checkout/CheckoutScreen";
 import ConfirmScreen from "../screen/Confirm/ConfirmScreen";
 import HomeScreen from "../screen/Home/HomeScreen";
 import PCRTestScreen from "../screen/PCRTest/PCRTestScreen";
+import PersonalScreen from "../screen/Personal/PersonalScreen";
 import ReprintScreen from "../screen/Print/ReprintScreen";
 import RapidTestScreen from "../screen/RapidTest/RapidTestScreen";
 import ReportScreen from "../screen/Report/ReportScreen";
@@ -109,6 +109,10 @@ const Master = (props: any) => {
               <Route
                 path="/pcr"
                 render={(props) => <PCRTestScreen {...props} />}
+              />
+              <Route
+                path="/personal"
+                render={(props) => <PersonalScreen {...props} />}
               />
               <Redirect path="*" to="404" />
             </Switch>
