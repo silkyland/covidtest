@@ -3,7 +3,6 @@ import {
   Personal,
   StatusPersonal,
 } from "../../utils/interface";
-import { errorState } from "../actions/mics";
 
 export enum personalAction {
   SET_PERSONAL = "SET_PERSONAL",
@@ -32,16 +31,21 @@ export const PersonalReducer = (
   state = initialState,
   action: ActionWithPayload<any> | ActionWithPayload<Array<any>>
 ) => {
+  console.log(action.payload);
   switch (action.type) {
     case personalAction.SET_PERSONALS:
       return { ...state, personals: action.payload };
     case personalAction.SET_PERSONAL:
       return { ...state, personal: action.payload };
     case personalAction.ADD_PERSONAL:
-      //   const index = state.personals.findIndex(
-      //     (p: Personal) => (p.personal_id = action.payload.personal_id)
-      //   );
-      return state.personals.concat(action.payload);
+      return { ...state, personals: state.personals.concat(action.payload) };
+    case personalAction.DELETE_PERSONAL:
+      return {
+        ...state,
+        personals: state.personals.filter(
+          (p: Personal) => p.personal_id !== action.payload
+        ),
+      };
     default:
       return state;
   }

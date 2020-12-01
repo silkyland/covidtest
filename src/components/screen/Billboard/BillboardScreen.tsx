@@ -18,7 +18,7 @@ const AutoplaySlider = withAutoplay(AwesomeSlider);
 const BillboardScreen = (props: any): JSX.Element => {
   useEffect(() => {
     props.fetchBillboards();
-    startTimer();
+    // startTimer();
   }, []);
 
   const startTimer = (): void => {
@@ -27,7 +27,7 @@ const BillboardScreen = (props: any): JSX.Element => {
     }, 5000);
   };
 
-  const renderFakeAPI = () => {
+  const fakerB = (): any => {
     let data: any = [];
     let i = 1;
     _.times(187, () => {
@@ -41,37 +41,50 @@ const BillboardScreen = (props: any): JSX.Element => {
     return data;
   };
 
+  //const billboards: any = { isLoading: false, data: fakerB() };
+
   const { billboards } = props;
 
   let sliders: any[] = [];
 
   if (!billboards.isLoading) {
-    sliders = _.chunk(billboards.data, 48);
+    sliders = _.chunk(billboards.data, 20);
   }
+
+  const renderBackground = (
+    row: number
+  ): "background-odd" | "background-event" => {
+    return row % 2 === 0 ? "background-odd" : "background-event";
+  };
 
   return (
     <div>
       <Container fluid>
         <h1 className="mt-2" style={{ fontSize: 30, fontWeight: "bolder" }}>
           รายชื่อผลการตรวจ RAPID TEST{" "}
-          <small>* โปรดตรวจสอบผลที่ช่องทางออก</small>
+          <small>* โปรดตรวจสอบผลที่ช่องทางออก</small>{" "}
+          <div className="float-right">จำนวนที่ผลออกแล้ว {billboards.data.length} ราย</div>
         </h1>
+
         <AutoplaySlider
           play={true}
           cancelOnInteraction={false} // should stop playing on user interaction
-          interval={6000}
+          interval={10000}
           bullets={false}
           animation="cubeAnimation"
           organicArrows={false}
         >
           {sliders.map((sliderList, index) => {
-            const arr: any = _.chunk(sliderList, 16);
+            const arr: any = _.chunk(sliderList, 10);
             return (
               <div key={`_index_${index}`}>
                 <Row>
-                  <Col md={4}>
-                    {arr[0]?.map((bb: CovidTest) => (
-                      <p className="text-bigger" key={bb.citizen_id}>
+                  <Col md={6}>
+                    {arr[0]?.map((bb: CovidTest, index: number) => (
+                      <p
+                        className={`text-bigger ${renderBackground(index)} p-2`}
+                        key={bb.citizen_id}
+                      >
                         <strong>คิว {bb.queqe_id}</strong> {bb.fullname}{" "}
                         <span className="text-success text-italic-25">
                           ผลออกแล้ว
@@ -79,9 +92,12 @@ const BillboardScreen = (props: any): JSX.Element => {
                       </p>
                     ))}
                   </Col>
-                  <Col md={4}>
-                    {arr[1]?.map((bb: CovidTest) => (
-                      <p className="text-bigger" key={bb.citizen_id}>
+                  <Col md={6} className="border-separator">
+                    {arr[1]?.map((bb: CovidTest, index: number) => (
+                      <p
+                        className={`text-bigger ${renderBackground(index)} p-2`}
+                        key={bb.citizen_id}
+                      >
                         <strong>คิว {bb.queqe_id}</strong> {bb.fullname}{" "}
                         <span className="text-success text-italic-25">
                           ผลออกแล้ว
@@ -89,7 +105,7 @@ const BillboardScreen = (props: any): JSX.Element => {
                       </p>
                     ))}
                   </Col>
-                  <Col md={4}>
+                  {/* <Col md={4}>
                     {arr[2]?.map((bb: CovidTest) => (
                       <p className="text-bigger" key={bb.citizen_id}>
                         <strong>คิว {bb.queqe_id}</strong> {bb.fullname}{" "}
@@ -98,7 +114,7 @@ const BillboardScreen = (props: any): JSX.Element => {
                         </span>
                       </p>
                     ))}
-                  </Col>
+                  </Col> */}
                 </Row>
               </div>
             );

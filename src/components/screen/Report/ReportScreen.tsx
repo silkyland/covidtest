@@ -413,7 +413,7 @@ const ReportScreen = (props: any): JSX.Element => {
     },
     {
       backgroundColor: "#8FC93A",
-      name: "ผลออกแล้ว",
+      name: "ยอดรวมผล ออกแล้ว",
       value: report.total.total_rapidtest_checkin,
       reportType: reportType.REPORT_COVID_RAPIDTEST,
     },
@@ -449,7 +449,7 @@ const ReportScreen = (props: any): JSX.Element => {
     },
     {
       backgroundColor: "#FFB703",
-      name: "รับสติกเกอร์",
+      name: "รับสติกเกอร์แล้ว",
       value: report.total.total_covidtest_passed,
       reportType: reportType.REPORT_COVID_TEST_PASSED,
     },
