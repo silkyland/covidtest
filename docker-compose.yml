@@ -3,7 +3,7 @@ services:
   concam-api:
     container_name: covidtest.cmru.ac.th
     ports:
-      - "3000:3000"
+      - "3002:3000"
     volumes:
       - "/usr/src/app"
     restart: always
