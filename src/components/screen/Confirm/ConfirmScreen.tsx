@@ -1,4 +1,4 @@
-import _, { result } from "lodash";
+import _ from "lodash";
 import moment from "moment";
 import "moment/locale/th";
 import React, { useEffect, useState } from "react";
@@ -18,13 +18,13 @@ import {
   Row,
   TabContent,
   Table,
-  TabPane,
+  TabPane
 } from "reactstrap";
 import Swal from "sweetalert2";
 import {
   fetchPCRTestList,
   fetchRapidTestList,
-  submitTestResult,
+  submitTestResult
 } from "../../../store/actions/covid";
 import { CovidTest, CovidTestResult } from "../../../utils/interface";
 import "../Home/home.css";

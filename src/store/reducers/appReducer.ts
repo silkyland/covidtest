@@ -1,4 +1,4 @@
-import { ActionWithPayload, CovidTest } from "../../utils/interface";
+import { ActionWithPayload } from "../../utils/interface";
 import { errorState, loadingState } from "../actions/mics";
 
 const initialState = {

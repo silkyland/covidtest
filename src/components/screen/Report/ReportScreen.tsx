@@ -401,25 +401,25 @@ const ReportScreen = (props: any): JSX.Element => {
   const boxLists: Array<BoxList> = [
     {
       backgroundColor: "#1E91D6",
-      name: "จำนวนคิว",
+      name: "รับคิวแล้ว",
       value: report.total.total_checkin,
       reportType: reportType.REPORT_COVID_CHECKIN,
     },
     {
       backgroundColor: "#1E91D6",
-      name: "รอผล",
+      name: "รอผลตรวจ",
       value: report.total.total_rapidtest_waiting,
       reportType: reportType.REPORT_COVID_RAPIDTEST_WAITING,
     },
     {
       backgroundColor: "#8FC93A",
-      name: "ยอดรวมผล ออกแล้ว",
+      name: "ผลออกแล้ว",
       value: report.total.total_rapidtest_checkin,
       reportType: reportType.REPORT_COVID_RAPIDTEST,
     },
     {
       backgroundColor: "#E4CC37",
-      name: "RAPID ผ่าน",
+      name: "RAPID ผ่าน (-)",
       value: report.total.total_rapidtest_passed,
       reportType: reportType.REPORT_COVID_RAPIDTEST_PASSED,
     },
@@ -431,7 +431,7 @@ const ReportScreen = (props: any): JSX.Element => {
     },
     {
       backgroundColor: "#8ECAE6",
-      name: "ส่งตรวจ PCR",
+      name: "รอผล PCR",
       value: report.total.total_pcrtest_waiting,
       reportType: reportType.REPORT_COVID_PCRTEST_WAITING,
     },
@@ -449,13 +449,13 @@ const ReportScreen = (props: any): JSX.Element => {
     },
     {
       backgroundColor: "#FFB703",
-      name: "รับสติกเกอร์แล้ว",
+      name: "รับสติกเกอร์",
       value: report.total.total_covidtest_passed,
       reportType: reportType.REPORT_COVID_TEST_PASSED,
     },
     {
-      backgroundColor: "#FB8500",
-      name: "ไม่ผ่านตรวจ",
+      backgroundColor: "#e63946",
+      name: "ไม่ผ่านตรวจ ++",
       value: report.total.total_covidtest_failed,
       reportType: reportType.REPORT_COVID_TEST_FAILED,
     },

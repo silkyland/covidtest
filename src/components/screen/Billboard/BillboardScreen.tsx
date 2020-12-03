@@ -1,24 +1,24 @@
+import faker from "faker";
+import _ from "lodash";
 import React, { useEffect } from "react";
+import AwesomeSlider from "react-awesome-slider";
+import withAutoplay from "react-awesome-slider/dist/autoplay";
+import "react-awesome-slider/dist/styles.css";
 import { connect } from "react-redux";
 import { Col, Container, Row } from "reactstrap";
 import {
   fetchBillboards,
-  fetchBillboardsNoLoadingTime,
+  fetchBillboardsNoLoadingTime
 } from "../../../store/actions/covid";
 import { CovidTest } from "../../../utils/interface";
 import "./tv.css";
-import _ from "lodash";
-import faker from "faker";
-import AwesomeSlider from "react-awesome-slider";
-import "react-awesome-slider/dist/styles.css";
-import withAutoplay from "react-awesome-slider/dist/autoplay";
 
 const AutoplaySlider = withAutoplay(AwesomeSlider);
 
 const BillboardScreen = (props: any): JSX.Element => {
   useEffect(() => {
     props.fetchBillboards();
-    // startTimer();
+    startTimer();
   }, []);
 
   const startTimer = (): void => {
@@ -63,7 +63,9 @@ const BillboardScreen = (props: any): JSX.Element => {
         <h1 className="mt-2" style={{ fontSize: 30, fontWeight: "bolder" }}>
           รายชื่อผลการตรวจ RAPID TEST{" "}
           <small>* โปรดตรวจสอบผลที่ช่องทางออก</small>{" "}
-          <div className="float-right">จำนวนที่ผลออกแล้ว {billboards.data.length} ราย</div>
+          <div className="float-right">
+            จำนวนที่ผลออกแล้ว {billboards.data.length} ราย
+          </div>
         </h1>
 
         <AutoplaySlider

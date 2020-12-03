@@ -6,7 +6,7 @@ const config = {
     server:
       process.env.NODE_ENV === "production"
         ? "http://10.77.113.1:3006"
-        : "localhost:4000",
+        : "http://localhost:4000",
   },
 };
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, Redirect, Route, Switch } from "react-router-dom";
 import { Container } from "reactstrap";
+import CheckScreen from "../screen/Check/CheckScreen";
 import CheckoutScreen from "../screen/Checkout/CheckoutScreen";
 import ConfirmScreen from "../screen/Confirm/ConfirmScreen";
 import HomeScreen from "../screen/Home/HomeScreen";
@@ -13,15 +14,37 @@ import "./master.css";
 
 const Master = (props: any) => {
   const menuList = [
-    { id: 1, to: "/", icon: "fa-id-card-o", name: "รับบัตรคิว" },
-    { id: 2, to: "/rapid", icon: "fa-thermometer", name: "RAPIDTEST" },
-    { id: 3, to: "/checkout", icon: "fa-check", name: "รับสติกเกอร์" },
+    {
+      id: 1,
+      to: "/covid",
+      icon: "fa-id-card-o",
+      name: "รับบัตรคิว",
+    },
+    {
+      id: 2,
+      to: "/covid/rapid",
+      icon: "fa-thermometer",
+      name: "RAPIDTEST",
+    },
+    {
+      id: 3,
+      to: "/covid/checkout",
+      icon: "fa-check",
+      name: "รับสติกเกอร์",
+    },
     {
       id: 4,
       external: true,
-      to: "/pcr",
+      to: "/covid/pcr",
       icon: "fa-shield",
-      name: "PRCTEST",
+      name: "PCRTEST",
+    },
+    {
+      id: 5,
+      external: true,
+      to: "/covid/report",
+      icon: "fa-dashboard",
+      name: "รายงาน",
     },
   ];
   const menuIndex: Number = menuList.findIndex(
@@ -78,42 +101,44 @@ const Master = (props: any) => {
             <Switch>
               <Route
                 exact
-                path="/"
+                path="/covid"
                 render={(props) => <HomeScreen {...props} />}
               />
 
               <Route
-                path="/result"
+                path="/covid/result"
                 render={(props) => <ConfirmScreen {...props} />}
               />
-              {/* <Route
-                path="/check"
-                render={(props) => <CheckScreen {...props} />}
-              /> */}
               <Route
-                path="/reprint"
+                path="/covid/check"
+                render={(props) => <CheckScreen {...props} />}
+              />
+              <Route
+                path="/covid/reprint"
                 render={(props) => <ReprintScreen {...props} />}
               />
               <Route
-                path="/checkout"
+                path="/covid/checkout"
                 render={(props) => <CheckoutScreen {...props} />}
               />
               <Route
-                path="/report"
+                path="/covid/report"
                 render={(props) => <ReportScreen {...props} />}
               />
               <Route
-                path="/rapid"
+                exact
+                path="/covid/rapid"
                 render={(props) => <RapidTestScreen {...props} />}
               />
               <Route
-                path="/pcr"
+                path="/covid/pcr"
                 render={(props) => <PCRTestScreen {...props} />}
               />
               <Route
-                path="/personal"
+                path="/covid/personal"
                 render={(props) => <PersonalScreen {...props} />}
               />
+
               <Redirect path="*" to="404" />
             </Switch>
           </div>

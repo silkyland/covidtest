@@ -1,13 +1,9 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
-import {
-  BrowserRouter as Router,
-
-  Route,
-  Switch
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Master from "./components/layouts/Master";
+import NoMenu from "./components/layouts/NoMenu";
 import BillboardScreen from "./components/screen/Billboard/BillboardScreen";
 import CheckScreen from "./components/screen/Check/CheckScreen";
 
@@ -18,7 +14,11 @@ function App() {
         <Switch>
           <Route path="/tv" component={BillboardScreen} />
           <Route path="/check" component={CheckScreen} />
-          <Route path="/" render={(props) => <Master {...props} />} />
+          <Route
+            path="/covid"
+            render={(props) => <Master {...props} />}
+          />
+          <Route path="/" render={(props) => <NoMenu {...props} />} />
         </Switch>
       </Router>
     </div>
