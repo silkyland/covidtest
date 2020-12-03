@@ -1,6 +1,6 @@
 const config = {
   api: {
-    server: "http://10.77.113.1:3006",
+    server: "http://10.77.113.1:4000",
   },
 };
 
