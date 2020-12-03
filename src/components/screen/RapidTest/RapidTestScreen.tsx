@@ -1,7 +1,7 @@
 import _ from "lodash";
 import moment from "moment";
 import "moment/locale/th";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState, useLayoutEffect } from "react";
 import Skelaton from "react-loading-skeleton";
 import { connect } from "react-redux";
 import {
@@ -50,10 +50,16 @@ const ConfirmScreen = (props: any): JSX.Element => {
     props.fetchRapidTestList();
     props.fetchPCRTestList();
     checkTab();
+
+    const currentRef = inputRef.current as any;
+    currentRef.focus();
   }, []);
 
+  const inputRef = React.useRef(null);
   const _handleSelectRadioChange = (name: string, value: string): void => {
     setInput({ ...input, [name]: parseInt(value) });
+    const currentRef = inputRef.current as any;
+    currentRef.focus();
   };
 
   const _handleChangeInput = (field: string, value: string) => {
@@ -134,7 +140,8 @@ const ConfirmScreen = (props: any): JSX.Element => {
                     </FormGroup>
                   </FormGroup>
                   <Input
-                    autoFocus
+                    required
+                    innerRef={inputRef}
                     className="placeholder-center"
                     placeholder="กรอกหมายเลขบาร์โค๊ดที่นี่"
                     bsSize="lg"

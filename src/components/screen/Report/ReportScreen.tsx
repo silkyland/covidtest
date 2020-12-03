@@ -419,7 +419,7 @@ const ReportScreen = (props: any): JSX.Element => {
     },
     {
       backgroundColor: "#E4CC37",
-      name: "RAPID ผ่าน (-)",
+      name: "RAPID ผ่าน",
       value: report.total.total_rapidtest_passed,
       reportType: reportType.REPORT_COVID_RAPIDTEST_PASSED,
     },

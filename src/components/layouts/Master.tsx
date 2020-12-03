@@ -110,8 +110,8 @@ const Master = (props: any) => {
                 render={(props) => <ConfirmScreen {...props} />}
               />
               <Route
-                path="/covid/check"
-                render={(props) => <CheckScreen {...props} />}
+                path="/covid/confirm"
+                render={(props) => <ConfirmScreen {...props} />}
               />
               <Route
                 path="/covid/reprint"
