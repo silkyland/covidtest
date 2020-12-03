@@ -1,6 +1,6 @@
 const config = {
   api: {
-    server: "http://localhost:3306",
+    server: "http://localhost:3006",
   },
 };
 
