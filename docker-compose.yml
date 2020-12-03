@@ -1,6 +1,6 @@
 version: "3.3"
 services:
-  concam-api:
+  covidtest:
     container_name: covidtest.cmru.ac.th
     ports:
       - "3002:3000"
