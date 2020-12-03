@@ -3,6 +3,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import { Container } from "reactstrap";
 import CheckoutScreen from "../screen/Checkout/CheckoutScreen";
 import HomeScreen from "../screen/Home/HomeScreen";
+import ReprintScreen from "../screen/Print/ReprintScreen";
 import "./master.css";
 
 const NoMenu = (props: any) => {
@@ -35,15 +36,16 @@ const NoMenu = (props: any) => {
                 path="/checkout"
                 render={(props) => <CheckoutScreen {...props} />}
               />
+              <Route
+                path="/reprint"
+                render={(props) => <ReprintScreen {...props} />}
+              />
               {/* <Route
                 path="/covid/result"
                 render={(props) => <ConfirmScreen {...props} />}
               />
               
-              <Route
-                path="/covid/reprint"
-                render={(props) => <ReprintScreen {...props} />}
-              />
+              
               <Route
                 path="/covid/checkout"
                 render={(props) => <CheckoutScreen {...props} />}
