@@ -21,6 +21,7 @@ const PersonalScreen = (props: any): JSX.Element => {
     prefix: "",
     name: "",
     surname: "",
+    institute: 1,
   });
 
   const [isEdit, setIsEdit] = useState(false);
@@ -42,6 +43,7 @@ const PersonalScreen = (props: any): JSX.Element => {
         prefix: "",
         name: "",
         surname: "",
+        institute: 1,
       });
     }
   };
@@ -87,6 +89,7 @@ const PersonalScreen = (props: any): JSX.Element => {
           prefix: "",
           name: "",
           surname: "",
+          institute: 1,
         });
         setIsEdit(false);
         setIsOpen(false);
@@ -126,7 +129,7 @@ const PersonalScreen = (props: any): JSX.Element => {
           <h2>เพิ่มข้อมูล</h2>
           <Form onSubmit={handleSubmit}>
             <Row>
-              <Col md={6}>
+              <Col md={4}>
                 <FormGroup>
                   <Label>รหัสบัตรประชาชน</Label>
                   <Input
@@ -138,7 +141,28 @@ const PersonalScreen = (props: any): JSX.Element => {
                   />
                 </FormGroup>
               </Col>
-              <Col md={6}>
+              <Col md={4}>
+                <FormGroup>
+                  <Label>มหาวิทยาลัย</Label>
+                  <Input
+                    required
+                    type="select"
+                    onChange={(e: any) =>
+                      setInput({ ...input, institute: e.target.value })
+                    }
+                  >
+                    <option value={1}>มหาวิทยาลัยราชภัฏเชียงใหม่</option>
+                    <option value={2}>มหาวิทยาลัยราชภัฏเชียงราย</option>
+                    <option value={3}>มหาวิทยาลัยราชภัฏลำปาง</option>
+                    <option value={4}>มหาวิทยาลัยราชภัฏอุตรดิตถ์</option>
+                    <option value={5}>มหาวิทยาลัยราชภัฏเพชรบูรณ์</option>
+                    <option value={6}>มหาวิทยาลัยราชภัฏกำแพงเพชร</option>
+                    <option value={7}>มหาวิทยาลัยราชภัฏพิบูลสงคราม</option>
+                    <option value={8}>มหาวิทยาลัยราชภัฏนครสวรรค์</option>
+                  </Input>
+                </FormGroup>
+              </Col>
+              <Col md={4}>
                 <FormGroup>
                   <Label>ประเภท</Label>
                   <Input
@@ -206,6 +230,7 @@ const PersonalScreen = (props: any): JSX.Element => {
       ) : (
         <DataTable
           title="รายชื่อผู้บันทึกข้อมูลใหม่"
+          pagination
           columns={[
             {
               name: "รหัสบัตรประชาชน",
